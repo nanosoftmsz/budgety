@@ -1,44 +1,42 @@
 import "./App.css";
-import { useMemo } from "react";
+import { Switch, Route } from "react-router-dom";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { blue } from "@material-ui/core/colors";
-import SignIn from "./pages/SignIn.page";
+import Login from "./pages/Login";
+import TheNavbar from "./components/TheNavbar";
+import Register from "./pages/Register";
 const customBlue = blue["A400"];
 
 const App = () => {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const theme = useMemo(
-    () =>
-      createMuiTheme({
-        typography: {
-          fontFamily: ["Poppins", "sans-serif"].join(","),
+  const theme = createMuiTheme({
+    typography: {
+      fontFamily: ["Poppins", "sans-serif"].join(","),
+    },
+    shape: {
+      borderRadius: 12,
+    },
+    overrides: {
+      MuiButton: {
+        root: {
+          borderRadius: 6,
+          letterSpacing: 1.5,
         },
-        shape: {
-          borderRadius: 12,
-        },
-        overrides: {
-          MuiButton: {
-            root: {
-              borderRadius: 6,
-              letterSpacing: 2,
-            },
-          },
-        },
-        palette: {
-          type: prefersDarkMode ? "dark" : "light",
-
-          primary: {
-            main: customBlue,
-          },
-        },
-      }),
-    [prefersDarkMode]
-  );
+      },
+    },
+    palette: {
+      primary: {
+        main: customBlue,
+      },
+    },
+  });
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <SignIn />
+        <TheNavbar />
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+        </Switch>
       </div>
     </ThemeProvider>
   );
