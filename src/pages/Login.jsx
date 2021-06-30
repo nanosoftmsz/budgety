@@ -2,8 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import Divider from "@material-ui/core/Divider";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -13,7 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Copyright from "../components/Copyright";
 import { Card, CardContent } from "@material-ui/core";
-import { Divider } from "@material-ui/core";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -37,7 +36,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   mb: {
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(4),
+  },
+  googleBtn: {
+    background: "#e3f2fe",
   },
 }));
 
@@ -49,21 +51,28 @@ export default function Login() {
       <CssBaseline />
       <Card className={classes.card}>
         <CardContent>
-          <form className={classes.form}>
-            <div className={classes.paper}>
-              <Typography variant="h6" color="primary" className={classes.mb}>
-                Hi, Welcome Back
-              </Typography>
+          <div className={classes.paper}>
+            <form className={classes.form}>
+              <Box display="flex" justifyContent="center">
+                <Typography variant="h6" color="primary" className={classes.mb}>
+                  Hi, Welcome Back
+                </Typography>
+              </Box>
 
-              <Button variant="outlined" fullWidth color="primary" className={classes.mb}>
+              <Button fullWidth color="primary" className={classes.googleBtn}>
                 Sign In with Google
               </Button>
 
-              <Typography variant="subtitle1">Sign In with Email address</Typography>
+              <Box my={4}>
+                <Divider component="hr"></Divider>
+              </Box>
+
+              <Box display="flex" justifyContent="center">
+                <Typography variant="subtitle1">Sign In with Email address</Typography>
+              </Box>
 
               <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus />
               <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" />
-              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                 Sign In
               </Button>
@@ -79,8 +88,8 @@ export default function Login() {
                   </Link>
                 </Grid>
               </Grid>
-            </div>
-          </form>
+            </form>
+          </div>
         </CardContent>
       </Card>
       <Box mt={8}>
