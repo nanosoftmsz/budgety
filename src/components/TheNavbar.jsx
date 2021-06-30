@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { useHistory, NavLink, Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,17 +23,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TheNavbar() {
   const classes = useStyles();
-  const history = useHistory();
-
-  const logout = () => {
-    localStorage.clear();
-    history.push("/");
-    window.location.reload();
-  };
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" style={{ background: "#2962ff" }}>
+      <AppBar position="static" color="transparent">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             <Link to="/">Budgety</Link>
@@ -42,8 +35,8 @@ export default function TheNavbar() {
           <NavLink
             to="/login"
             activeStyle={{
-              background: "#2979ff",
-              borderRadius: 12,
+              borderBottom: "3px solid #1565c0",
+              borderRadius: "3px",
             }}>
             <Button color="inherit" className={classes.buttonStyle}>
               Log In
@@ -53,8 +46,8 @@ export default function TheNavbar() {
           <NavLink
             to="/register"
             activeStyle={{
-              background: "#2979ff",
-              borderRadius: 12,
+              borderBottom: "3px solid #1565c0",
+              borderRadius: "3px",
             }}>
             <Button color="inherit" className={classes.buttonStyle}>
               Register

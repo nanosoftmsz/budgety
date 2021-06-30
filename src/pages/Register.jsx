@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, CssBaseline, TextField, Typography, Box, Container, FormControlLabel, Checkbox, Card, CardContent, Grid, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { blue } from "@material-ui/core/colors";
 import { Link } from "react-router-dom";
 import Copyright from "../components/Copyright";
 
@@ -21,10 +20,6 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  },
-  link: {
-    color: blue[700],
-    textDecoration: "underline",
   },
   mb: {
     marginBottom: theme.spacing(4),
@@ -73,13 +68,15 @@ export default function Register() {
               <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type={showPasswordCheck ? "text" : "password"} />
               <TextField variant="outlined" margin="normal" required fullWidth name="confirm_password" label="Confirm Password" type={showPasswordCheck ? "text" : "password"} />
               <FormControlLabel control={<Checkbox value="remember" color="primary" onChange={(e) => setShowPasswordCheck(e.target.checked)} />} label="Show Password" />
-              <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+              <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit}>
                 Sign Up
               </Button>
               <Grid container>
                 <Grid item>
                   <Link to="/login" className={classes.link}>
-                    {"Already have an account. Login"}
+                    <Button variant="text" color="primary">
+                      Already have an account. Login
+                    </Button>
                   </Link>
                 </Grid>
               </Grid>
