@@ -1,18 +1,9 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Divider from "@material-ui/core/Divider";
+import { Button, CssBaseline, TextField, Typography, Box, Container, Divider, Card, CardContent, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import { blue } from "@material-ui/core/colors";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import Copyright from "../components/Copyright";
-import { Card, CardContent } from "@material-ui/core";
-import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -47,7 +38,7 @@ export default function Login() {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="sm">
       <CssBaseline />
       <Card className={classes.card}>
         <CardContent>
@@ -68,7 +59,7 @@ export default function Login() {
               </Box>
 
               <Box display="flex" justifyContent="center">
-                <Typography variant="subtitle1">Sign In with Email address</Typography>
+                <Typography variant="subtitle1">Sign In With Email Address</Typography>
               </Box>
 
               <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus />

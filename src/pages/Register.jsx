@@ -1,21 +1,15 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import { Button, CssBaseline, TextField, Typography, Box, Container, FormControlLabel, Checkbox, Card, CardContent, Grid, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { blue } from "@material-ui/core/colors";
-import Container from "@material-ui/core/Container";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import { Link } from "react-router-dom";
 import Copyright from "../components/Copyright";
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
+  card: {
     marginTop: theme.spacing(8),
+  },
+  paper: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -32,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
     color: blue[700],
     textDecoration: "underline",
   },
+  mb: {
+    marginBottom: theme.spacing(4),
+  },
+  googleBtn: {
+    background: "#e3f2fe",
+  },
 }));
 
 export default function Register() {
@@ -43,33 +43,50 @@ export default function Register() {
     console.log(e.target.email.value);
     console.log(e.target.password.value);
     console.log(e.target.remember.value);
-    console.log(e.target.demo_select.value);
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="sm">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Register to get started
-        </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
-          <TextField variant="outlined" margin="normal" required fullWidth label="Email Address" name="email" autoFocus />
-          <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type={showPasswordCheck ? "text" : "password"} />
-          <TextField variant="outlined" margin="normal" required fullWidth name="confirm_password" label="Confirm Password" type={showPasswordCheck ? "text" : "password"} />
-          <FormControlLabel control={<Checkbox value="remember" color="primary" onChange={(e) => setShowPasswordCheck(e.target.checked)} />} label="Show Password" />
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item>
-              <Link to="/login" className={classes.link}>
-                {"Already have an account. Login"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
+      <Card className={classes.card}>
+        <CardContent>
+          <div className={classes.paper}>
+            <form className={classes.form} onSubmit={handleSubmit}>
+              <Box display="flex" justifyContent="center">
+                <Typography variant="h6" color="primary" className={classes.mb}>
+                  Sign Up
+                </Typography>
+              </Box>
+
+              <Button fullWidth color="primary" className={classes.googleBtn}>
+                Sign Up with Google
+              </Button>
+
+              <Box my={4}>
+                <Divider component="hr"></Divider>
+              </Box>
+              <Box display="flex" justifyContent="center">
+                <Typography variant="subtitle1">Sign In With Email Address</Typography>
+              </Box>
+
+              <TextField variant="outlined" margin="normal" required fullWidth label="Email Address" name="email" autoFocus />
+              <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type={showPasswordCheck ? "text" : "password"} />
+              <TextField variant="outlined" margin="normal" required fullWidth name="confirm_password" label="Confirm Password" type={showPasswordCheck ? "text" : "password"} />
+              <FormControlLabel control={<Checkbox value="remember" color="primary" onChange={(e) => setShowPasswordCheck(e.target.checked)} />} label="Show Password" />
+              <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                Sign Up
+              </Button>
+              <Grid container>
+                <Grid item>
+                  <Link to="/login" className={classes.link}>
+                    {"Already have an account. Login"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
+        </CardContent>
+      </Card>
       <Box mt={8}>
         <Copyright />
       </Box>
