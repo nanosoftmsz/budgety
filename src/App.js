@@ -19,7 +19,7 @@ const App = () => {
       MuiButton: {
         root: {
           borderRadius: 6,
-          letterSpacing: 1.5,
+          letterSpacing: 1,
         },
       },
     },

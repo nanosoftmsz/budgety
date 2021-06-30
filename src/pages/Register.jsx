@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { blue } from "@material-ui/core/colors";
 import Container from "@material-ui/core/Container";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 import { Link } from "react-router-dom";
 import Copyright from "../components/Copyright";
 
@@ -34,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Register() {
   const classes = useStyles();
+  const [showPasswordCheck, setShowPasswordCheck] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,9 +55,9 @@ export default function Register() {
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField variant="outlined" margin="normal" required fullWidth label="Email Address" name="email" autoFocus />
-          <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" />
-          <TextField variant="outlined" margin="normal" required fullWidth name="confirm_password" label="Confirm Password" type="password" />
-          <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Show Password" />
+          <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type={showPasswordCheck ? "text" : "password"} />
+          <TextField variant="outlined" margin="normal" required fullWidth name="confirm_password" label="Confirm Password" type={showPasswordCheck ? "text" : "password"} />
+          <FormControlLabel control={<Checkbox value="remember" color="primary" onChange={(e) => setShowPasswordCheck(e.target.checked)} />} label="Show Password" />
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             Sign In
           </Button>
