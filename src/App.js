@@ -7,6 +7,7 @@ import TheNavbar from "./components/TheNavbar";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import MonthlyExpenseList from "./pages/MonthlyExpenseList";
+import IndividualMonthExpense from "./pages/IndividualMonthExpense";
 const customBlue = blue["A400"];
 
 const App = () => {
@@ -53,6 +54,7 @@ const App = () => {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/monthly-expenditure" component={MonthlyExpenseList} />
+          <Route exact path="/monthly-expenditure/:id" component={IndividualMonthExpense} />
         </Switch>
       </div>
     </ThemeProvider>

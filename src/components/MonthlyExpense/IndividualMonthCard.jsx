@@ -14,7 +14,7 @@ export default function IndividualMonthCard() {
   const classes = useStyles();
   return (
     <div>
-      <Link to="#">
+      <Link to="/monthly-expenditure/5">
         <Card>
           <CardContent>
             <Grid container alignItems="center" justify="space-between">
