@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, CssBaseline, TextField, Typography, Box, Container, FormControlLabel, Checkbox, Card, CardContent, Grid, Divider } from "@material-ui/core";
+import { Button, CssBaseline, TextField, Typography, Box, Container, FormControlLabel, Checkbox, Card, CardContent, Grid, Divider, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import Copyright from "../components/Copyright";
@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState({ value: 25, color: "red", status: "Poor" });
+
+  const managePasswordStrength = () => {};
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,7 +56,7 @@ export default function Register() {
                 </Typography>
               </Box>
 
-              <Button fullWidth color="primary" className={classes.googleBtn}>
+              <Button size="large" fullWidth color="primary" className={classes.googleBtn}>
                 Sign Up with Google
               </Button>
 
@@ -67,7 +70,21 @@ export default function Register() {
               <TextField variant="outlined" margin="normal" required fullWidth label="Email Address" name="email" autoFocus />
               <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type={showPasswordCheck ? "text" : "password"} />
               <TextField variant="outlined" margin="normal" required fullWidth name="confirm_password" label="Confirm Password" type={showPasswordCheck ? "text" : "password"} />
-              <FormControlLabel control={<Checkbox value="remember" color="primary" onChange={(e) => setShowPasswordCheck(e.target.checked)} />} label="Show Password" />
+              <Grid container alignItems="center">
+                <Grid item xs={12} sm={6}>
+                  <FormControlLabel control={<Checkbox value="remember" color="primary" onChange={(e) => setShowPasswordCheck(e.target.checked)} />} label="Show Password" />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Grid container alignItems="center">
+                    <Grid item xs={3}>
+                      <CircularProgress variant="determinate" value={passwordStrength.value} style={{ color: `${passwordStrength.color}` }} />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography variant="subtitle1">{passwordStrength.status}</Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
               <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit}>
                 Sign Up
               </Button>

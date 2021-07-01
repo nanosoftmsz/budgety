@@ -45,7 +45,7 @@ export default function Login() {
                 </Typography>
               </Box>
 
-              <Button fullWidth color="primary" className={classes.googleBtn}>
+              <Button size="large" fullWidth color="primary" className={classes.googleBtn}>
                 Sign In with Google
               </Button>
 

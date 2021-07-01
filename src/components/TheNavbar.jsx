@@ -35,7 +35,7 @@ export default function TheNavbar() {
           <NavLink
             to="/monthly-expenditure"
             activeStyle={{
-              borderBottom: "3px solid #1565c0",
+              borderBottom: "3px solid #2979ff",
               borderRadius: "3px",
             }}>
             <Button color="inherit" className={classes.buttonStyle}>
@@ -46,7 +46,7 @@ export default function TheNavbar() {
           <NavLink
             to="/login"
             activeStyle={{
-              borderBottom: "3px solid #1565c0",
+              borderBottom: "3px solid #2979ff",
               borderRadius: "3px",
             }}>
             <Button color="inherit" className={classes.buttonStyle}>
