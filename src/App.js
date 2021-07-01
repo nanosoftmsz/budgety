@@ -6,12 +6,16 @@ import Login from "./pages/Login";
 import TheNavbar from "./components/TheNavbar";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
+import MonthlyExpenseList from "./pages/MonthlyExpenseList";
 const customBlue = blue["A400"];
 
 const App = () => {
   const theme = createMuiTheme({
     typography: {
       fontFamily: ["Poppins", "sans-serif"].join(","),
+      allVariants: {
+        color: "#616161",
+      },
     },
     shape: {
       borderRadius: 12,
@@ -26,15 +30,17 @@ const App = () => {
       },
     },
     palette: {
+      background: {
+        default: "#f5fcff",
+      },
       primary: {
         main: customBlue,
       },
       secondary: {
-        main: "#ff9100",
+        main: "#f50057",
       },
-
-      background: {
-        default: "#f5fcff",
+      pink: {
+        main: "#ff9100",
       },
     },
   });
@@ -46,6 +52,7 @@ const App = () => {
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
+          <Route exact path="/monthly-expenditure" component={MonthlyExpenseList} />
         </Switch>
       </div>
     </ThemeProvider>

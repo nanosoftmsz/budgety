@@ -18,7 +18,7 @@ export default function HeroSection() {
         <Grid item xs={12} md={6}>
           <Box mb={4}>
             <Typography variant="h2" color="primary" className={classes.title}>
-              Budgety
+              BUDGETY
             </Typography>
           </Box>
           <Box mb={6}>

@@ -75,7 +75,7 @@ export default function Register() {
                 <Grid item>
                   <Link to="/login" className={classes.link}>
                     <Button variant="text" color="primary">
-                      Already have an account. Login
+                      Already have an account? Login
                     </Button>
                   </Link>
                 </Grid>
