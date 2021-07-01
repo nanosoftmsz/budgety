@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, CssBaseline, TextField, Typography, Box, Container, FormControlLabel, Checkbox, Card, CardContent, Grid, Divider, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+import { mediumRegex, strongRegex } from "../utils/constant";
 import Copyright from "../components/Copyright";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,15 +33,29 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState({ value: 25, color: "red", status: "Poor" });
+  const [passwordStrength, setPasswordStrength] = useState({ value: 0, color: "", status: "" });
+  const [createUser, setCreateUser] = useState({ email: "", password: "", confirmPassword: "" });
 
-  const managePasswordStrength = () => {};
+  const handleChange = (e) => {
+    setCreateUser({ ...createUser, [e.target.name]: e.target.value });
+    // setPasswordStrength({ value: 0, color: "", status: "" });
+    // if (createUser.password) {
+    //   if (strongRegex.test(createUser.password)) {
+    //     setPasswordStrength({ value: 100, color: "#2e7d32", status: "Strong" });
+    //   } else if (mediumRegex.test(createUser.password)) {
+    //     setPasswordStrength({ value: 50, color: "#aed581", status: "Medium" });
+    //   } else {
+    //     setPasswordStrength({ value: 25, color: "#c62828", status: "Poor" });
+    //   }
+    // }
+  };
+
+  // const managePasswordStrength = () => {};
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target.email.value);
-    console.log(e.target.password.value);
-    console.log(e.target.remember.value);
+    console.log(createUser.email);
+    console.log(createUser.password);
   };
 
   return (
@@ -67,23 +82,34 @@ export default function Register() {
                 <Typography variant="subtitle1">Sign In With Email Address</Typography>
               </Box>
 
-              <TextField variant="outlined" margin="normal" required fullWidth label="Email Address" name="email" autoFocus />
-              <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type={showPasswordCheck ? "text" : "password"} />
-              <TextField variant="outlined" margin="normal" required fullWidth name="confirm_password" label="Confirm Password" type={showPasswordCheck ? "text" : "password"} />
+              <TextField variant="outlined" margin="normal" required fullWidth label="Email Address" name="email" autoFocus onChange={handleChange} />
+              <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type={showPasswordCheck ? "text" : "password"} onChange={handleChange} />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="confirm_password"
+                label="Confirm Password"
+                type={showPasswordCheck ? "text" : "password"}
+                onChange={handleChange}
+              />
               <Grid container alignItems="center">
                 <Grid item xs={12} sm={6}>
                   <FormControlLabel control={<Checkbox value="remember" color="primary" onChange={(e) => setShowPasswordCheck(e.target.checked)} />} label="Show Password" />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Grid container alignItems="center">
-                    <Grid item xs={3}>
-                      <CircularProgress variant="determinate" value={passwordStrength.value} style={{ color: `${passwordStrength.color}` }} />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant="subtitle1">{passwordStrength.status}</Typography>
+                {/* {createUser.password.length !== 0 && (
+                  <Grid item xs={12} sm={6}>
+                    <Grid container alignItems="center">
+                      <Grid item xs={3}>
+                        <CircularProgress variant="determinate" value={passwordStrength.value} style={{ color: `${passwordStrength.color}` }} />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography variant="subtitle1">{passwordStrength.status}</Typography>
+                      </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
+                )} */}
               </Grid>
               <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit}>
                 Sign Up
