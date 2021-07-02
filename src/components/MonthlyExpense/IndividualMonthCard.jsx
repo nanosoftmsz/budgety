@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, Grid, Typography } from "@material-ui/core";
-import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+import ArrowRightAltRoundedIcon from "@material-ui/icons/ArrowRightAltRounded";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 
@@ -22,7 +22,7 @@ export default function IndividualMonthCard() {
                 <Typography variant="h6">January 2020</Typography>
               </Grid>
               <Grid item>
-                <ArrowRightAltIcon fontSize="large" className={classes.mt} />
+                <ArrowRightAltRoundedIcon fontSize="large" className={classes.mt} />
               </Grid>
             </Grid>
           </CardContent>
