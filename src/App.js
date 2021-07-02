@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import MonthlyExpenseList from "./pages/MonthlyExpenseList";
 import IndividualMonthExpense from "./pages/IndividualMonthExpense";
 import OwnedAndDebt from "./pages/OwnedAndDebt";
+import DetailsOwnedAndDebt from "./components/OwnedAndDebt/DetailsOwnedAndDebt";
 const customBlue = blue["A400"];
 
 const App = () => {
@@ -57,6 +58,7 @@ const App = () => {
           <Route exact path="/monthly-expenditure" component={MonthlyExpenseList} />
           <Route exact path="/monthly-expenditure/:id" component={IndividualMonthExpense} />
           <Route exact path="/owned-and-debt" component={OwnedAndDebt} />
+          <Route exact path="/owned-and-debt/:id" component={DetailsOwnedAndDebt} />
         </Switch>
       </div>
     </ThemeProvider>
