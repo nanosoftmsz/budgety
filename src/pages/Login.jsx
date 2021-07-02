@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, CssBaseline, TextField, Typography, Box, Container, Divider, Card, CardContent, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { blue } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
 import Copyright from "../components/Copyright";
 
@@ -13,10 +12,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-  },
-  link: {
-    color: blue[700],
-    textDecoration: "underline",
   },
 
   form: {
@@ -50,7 +45,7 @@ export default function Login() {
                 </Typography>
               </Box>
 
-              <Button fullWidth color="primary" className={classes.googleBtn}>
+              <Button size="large" fullWidth color="primary" className={classes.googleBtn}>
                 Sign In with Google
               </Button>
 
@@ -62,20 +57,24 @@ export default function Login() {
                 <Typography variant="subtitle1">Sign In With Email Address</Typography>
               </Box>
 
-              <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus />
-              <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" />
-              <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+              <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" type="email" autoFocus />
+              <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" />
+              <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit}>
                 Sign In
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link to="/" className={classes.link}>
-                    Forgot password?
+                  <Link to="/">
+                    <Button variant="text" color="primary">
+                      Forgot password?
+                    </Button>
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link to="/register" className={classes.link}>
-                    Don't have an account? Sign Up
+                  <Link to="/register">
+                    <Button variant="text" color="primary">
+                      Don't have an account? Sign Up
+                    </Button>
                   </Link>
                 </Grid>
               </Grid>

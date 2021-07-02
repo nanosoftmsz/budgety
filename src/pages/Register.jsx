@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, CssBaseline, TextField, Typography, Box, Container, FormControlLabel, Checkbox, Card, CardContent, Grid, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { blue } from "@material-ui/core/colors";
 import { Link } from "react-router-dom";
 import Copyright from "../components/Copyright";
 
@@ -22,10 +21,6 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  link: {
-    color: blue[700],
-    textDecoration: "underline",
-  },
   mb: {
     marginBottom: theme.spacing(4),
   },
@@ -37,12 +32,16 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
+  const [createUser, setCreateUser] = useState({ email: "", password: "", confirmPassword: "" });
+
+  const handleChange = (e) => {
+    setCreateUser({ ...createUser, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target.email.value);
-    console.log(e.target.password.value);
-    console.log(e.target.remember.value);
+    console.log(createUser.email);
+    console.log(createUser.password);
   };
 
   return (
@@ -58,7 +57,7 @@ export default function Register() {
                 </Typography>
               </Box>
 
-              <Button fullWidth color="primary" className={classes.googleBtn}>
+              <Button size="large" fullWidth color="primary" className={classes.googleBtn}>
                 Sign Up with Google
               </Button>
 
@@ -69,17 +68,32 @@ export default function Register() {
                 <Typography variant="subtitle1">Sign In With Email Address</Typography>
               </Box>
 
-              <TextField variant="outlined" margin="normal" required fullWidth label="Email Address" name="email" autoFocus />
-              <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type={showPasswordCheck ? "text" : "password"} />
-              <TextField variant="outlined" margin="normal" required fullWidth name="confirm_password" label="Confirm Password" type={showPasswordCheck ? "text" : "password"} />
-              <FormControlLabel control={<Checkbox value="remember" color="primary" onChange={(e) => setShowPasswordCheck(e.target.checked)} />} label="Show Password" />
-              <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+              <TextField variant="outlined" margin="normal" required fullWidth label="Email Address" type="email" name="email" autoFocus onChange={handleChange} />
+              <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type={showPasswordCheck ? "text" : "password"} onChange={handleChange} />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="confirm_password"
+                label="Confirm Password"
+                type={showPasswordCheck ? "text" : "password"}
+                onChange={handleChange}
+              />
+              <Grid container alignItems="center">
+                <Grid item xs={12} sm={6}>
+                  <FormControlLabel control={<Checkbox value="remember" color="primary" onChange={(e) => setShowPasswordCheck(e.target.checked)} />} label="Show Password" />
+                </Grid>
+              </Grid>
+              <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit}>
                 Sign Up
               </Button>
               <Grid container>
                 <Grid item>
                   <Link to="/login" className={classes.link}>
-                    {"Already have an account. Login"}
+                    <Button variant="text" color="primary">
+                      Already have an account? Login
+                    </Button>
                   </Link>
                 </Grid>
               </Grid>
