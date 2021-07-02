@@ -22,7 +22,7 @@ function createData(name, calories, fat, carbs, protein) {
 
 const rows = [createData("Frozen yoghurt", 159, 6.0, 24, 4.0), createData("Ice cream sandwich", 237, 9.0, 37, 4.3), createData("Eclair", 262, 16.0, 24, 6.0)];
 
-export default function ExpenseHistoryTable() {
+export default function AddMoneyHistoryTable() {
   const classes = useStyles();
 
   return (
@@ -49,10 +49,10 @@ export default function ExpenseHistoryTable() {
               <TableCell align="right">{row.carbs}</TableCell>
               <TableCell align="right">
                 <Grid container justify="flex-end" alignItems="center">
-                  <IconButton aria-label="delete" className={classes.margin} color="primary">
+                  <IconButton aria-label="delete" color="primary">
                     <EditRoundedIcon fontSize="small" />
                   </IconButton>
-                  <IconButton aria-label="delete" className={classes.margin} color="secondary">
+                  <IconButton aria-label="delete" color="secondary">
                     <DeleteRoundedIcon fontSize="small" />
                   </IconButton>
                 </Grid>

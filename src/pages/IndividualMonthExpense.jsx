@@ -2,10 +2,30 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
-import { Container, CssBaseline, Grid, Card, CardContent, Button, Dialog, DialogContent, Typography, Box, Paper, Tabs, Tab } from "@material-ui/core";
+import {
+  Container,
+  CssBaseline,
+  Grid,
+  Card,
+  CardContent,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  Typography,
+  Box,
+  Paper,
+  Tabs,
+  Tab,
+  DialogTitle,
+  TextField,
+  DialogActions,
+} from "@material-ui/core";
 import TabPanel from "../components/TabPanel";
+import AttachMoneyRoundedIcon from "@material-ui/icons/AttachMoneyRounded";
+import EventNoteIcon from "@material-ui/icons/EventNote";
 import ExpenseHistoryTable from "../components/MonthlyExpense/ExpenseHistoryTable";
-import AddMoneyHistory from "../components/MonthlyExpense/AddMoneyHistory";
+import AddMoneyHistoryTable from "../components/MonthlyExpense/AddMoneyHistoryTable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,8 +52,20 @@ const useStyles = makeStyles((theme) => ({
 export default function IndividualMonthExpense() {
   const classes = useStyles();
   const [value, setValue] = useState(1);
+  const [addAmountModal, setAddAmountModal] = useState(false);
+  const [expenseModal, setExpenseModal] = useState(false);
+  const [addAmount, setAddAmount] = useState({ nameOfSource: "", amount: 0 });
+  const [expenseInfo, setExpenseInfo] = useState({ expensePurpose: "", description: "", amount: 0 });
 
-  const handleChange = (event, newValue) => {
+  const handleAddAmountSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const handleExpenseSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
 
@@ -84,28 +116,71 @@ export default function IndividualMonthExpense() {
 
         {/* BUTTON LIST */}
         <Grid container justify="flex-end" className={classes.section}>
-          <Button variant="outlined" color="primary" className={classes.mr}>
+          <Button variant="outlined" color="primary" className={classes.mr} endIcon={<AttachMoneyRoundedIcon />} onClick={() => setAddAmountModal(true)}>
             Add Amount
           </Button>
-          <Button variant="contained" color="primary" disableElevation>
+          <Button variant="contained" color="primary" disableElevation endIcon={<EventNoteIcon />} onClick={() => setExpenseModal(true)}>
             Add Expense
           </Button>
         </Grid>
 
         {/* TABS FOR SAVE AND EXPENDITURE MONEY */}
         <Paper elevation={0} className={classes.margin}>
-          <Tabs value={value} onChange={handleChange} indicatorColor="primary" centered aria-label="simple tabs example">
+          <Tabs value={value} onChange={handleTabChange} indicatorColor="primary" centered aria-label="simple tabs example">
             <Tab label="Money Added History" {...a11yProps(0)} />
             <Tab label="Expense History" {...a11yProps(1)} />
           </Tabs>
         </Paper>
 
         <TabPanel value={value} index={0}>
-          <AddMoneyHistory />
+          <AddMoneyHistoryTable />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <ExpenseHistoryTable />
         </TabPanel>
+
+        {/* ADD AMOUNT MODAL */}
+        <Dialog open={addAmountModal} onClose={() => setAddAmountModal(false)} aria-labelledby="form-dialog-title">
+          <form onSubmit={handleAddAmountSubmit}>
+            <DialogTitle id="form-dialog-title">Add Monthly Amount</DialogTitle>
+            <DialogContent>
+              <DialogContentText>You can add monthly amount from which the expenditure money will be deducted. </DialogContentText>
+              <TextField autoFocus margin="normal" variant="outlined" name="source" label="Money Source" required fullWidth />
+              <TextField margin="normal" variant="outlined" name="amount" label="Amount" type="number" required fullWidth />
+              <small>* indicates required field</small>
+            </DialogContent>
+            <DialogActions>
+              <Button size="small" onClick={() => setAddAmountModal(false)} color="secondary">
+                Cancel
+              </Button>
+              <Button size="small" variant="contained" disableElevation type="submit" color="primary">
+                Add Money
+              </Button>
+            </DialogActions>
+          </form>
+        </Dialog>
+
+        {/* EXPENSE DIALOG */}
+        <Dialog open={expenseModal} onClose={() => setExpenseModal(false)} aria-labelledby="form-dialog-title">
+          <form onSubmit={handleAddAmountSubmit}>
+            <DialogTitle id="form-dialog-title">Add Expense Info</DialogTitle>
+            <DialogContent>
+              <DialogContentText>You can add monthly expense from here. </DialogContentText>
+              <TextField autoFocus margin="normal" variant="outlined" name="purpose" label="Expense Purpose" required fullWidth />
+              <TextField margin="normal" variant="outlined" name="description" label="Description" fullWidth />
+              <TextField margin="normal" variant="outlined" name="amount" label="Amount" type="number" required fullWidth />
+              <small>* indicates required field</small>
+            </DialogContent>
+            <DialogActions>
+              <Button size="small" onClick={() => setExpenseModal(false)} color="secondary">
+                Cancel
+              </Button>
+              <Button size="small" variant="contained" disableElevation type="submit" color="primary">
+                Add Expense
+              </Button>
+            </DialogActions>
+          </form>
+        </Dialog>
       </Container>
     </div>
   );
