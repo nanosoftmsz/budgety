@@ -1,6 +1,7 @@
-import React from "react";
-import { Container, Grid, Typography, CssBaseline, Box, TextField, InputAdornment } from "@material-ui/core";
+import React, { useState } from "react";
+import { Container, Grid, Typography, CssBaseline, Box, TextField, InputAdornment, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import SingleCard from "../components/OwnedAndDebt/SingleCard";
 
@@ -27,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function OwnedAndDebt() {
   const classes = useStyles();
+  const [addPersonModal, setAddPersonModal] = useState(false);
+  const [personInfo, setPersonInfo] = useState({ name: "", phone_number: "" });
+
+  const handleChange = (e) => setPersonInfo({ ...personInfo, [e.target.name]: e.target.value });
+
   return (
     <div>
       <Container component="main" maxWidth="lg" className={classes.root}>
@@ -36,7 +42,10 @@ export default function OwnedAndDebt() {
             List of Owned / Debt
           </Typography>
         </Box>
-        <Grid container justify="flex-end">
+        <Grid container justify="space-between">
+          <Button variant="contained" color="primary" disableElevation endIcon={<AddCircleOutlineRoundedIcon />} onClick={() => setAddPersonModal(true)}>
+            Add new person
+          </Button>
           <TextField
             type="search"
             variant="outlined"
@@ -56,6 +65,25 @@ export default function OwnedAndDebt() {
             <SingleCard />
           </Grid>
         </Grid>
+
+        {/* ADD PERSON MODAL */}
+        <Dialog open={addPersonModal} onClose={() => setAddPersonModal(false)} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Add Person</DialogTitle>
+          <DialogContent>
+            <DialogContentText>Here you can add person with whom you have done any kind of transactions either owned or debts.</DialogContentText>
+            <TextField autoFocus variant="outlined" margin="normal" label="Person Name" name="name" required fullWidth onChange={handleChange} />
+            <TextField variant="outlined" margin="normal" label="Phone Number" name="phone_number" required fullWidth onChange={handleChange} />
+            <small>* indicates required field</small>
+          </DialogContent>
+          <DialogActions>
+            <Button size="small" onClick={() => setAddPersonModal(false)} color="secondary">
+              Cancel
+            </Button>
+            <Button variant="contained" size="small" disableElevation onClick={() => setAddPersonModal(false)} color="primary">
+              Create Person
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Container>
     </div>
   );
