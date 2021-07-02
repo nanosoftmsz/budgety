@@ -10,6 +10,7 @@ import MonthlyExpenseList from "./pages/MonthlyExpenseList";
 import IndividualMonthExpense from "./pages/IndividualMonthExpense";
 import OwnedAndDebt from "./pages/OwnedAndDebt";
 import DetailsOwnedAndDebt from "./components/OwnedAndDebt/DetailsOwnedAndDebt";
+import Dashboard from "./pages/Dashboard";
 const customBlue = blue["A400"];
 
 const App = () => {
@@ -55,6 +56,7 @@ const App = () => {
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
+          <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/monthly-expenditure" component={MonthlyExpenseList} />
           <Route exact path="/monthly-expenditure/:id" component={IndividualMonthExpense} />
           <Route exact path="/owned-and-debt" component={OwnedAndDebt} />

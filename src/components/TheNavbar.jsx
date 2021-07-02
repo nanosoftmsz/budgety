@@ -33,6 +33,17 @@ export default function TheNavbar() {
           </Typography>
 
           <NavLink
+            to="/dashboard"
+            activeStyle={{
+              borderBottom: "3px solid #2979ff",
+              borderRadius: "3px",
+            }}>
+            <Button color="inherit" className={classes.buttonStyle}>
+              Dashboard
+            </Button>
+          </NavLink>
+
+          <NavLink
             to="/monthly-expenditure"
             activeStyle={{
               borderBottom: "3px solid #2979ff",
