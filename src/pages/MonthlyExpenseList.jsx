@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Container, Grid, Tooltip, Paper, Typography, Box, TextField, Divider, Dialog, DialogTitle, DialogContent, Button, DialogActions, DialogContentText } from "@material-ui/core";
+import { Container, Grid, Tooltip, Paper, Typography, Box, TextField, Divider, Dialog, DialogTitle, DialogContent, Button, DialogActions, DialogContentText, InputAdornment } from "@material-ui/core";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
+import SearchIcon from "@material-ui/icons/Search";
 import { grey } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/styles";
 import DateMomentUtils from "@date-io/moment";
@@ -84,7 +85,20 @@ export default function MonthlyExpenseList() {
           </Grid>
           <Grid item xs={12} sm={6}>
             <Box display="flex" justifyContent="flex-end">
-              <TextField size="small" type="search" variant="outlined" placeholder="Search a month" />
+              <TextField
+                margin="dense"
+                type="search"
+                variant="outlined"
+                placeholder="Search a month"
+                color="primary"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
             </Box>
           </Grid>
         </Grid>
@@ -102,6 +116,7 @@ export default function MonthlyExpenseList() {
             <DialogContentText>Here you can create month for monthly expense tracking. </DialogContentText>
             <MuiPickersUtilsProvider utils={DateMomentUtils}>
               <KeyboardDatePicker
+                disableFuture
                 disableToolbar
                 autoOk
                 fullWidth
@@ -123,8 +138,8 @@ export default function MonthlyExpenseList() {
             <Button onClick={handleClose} color="secondary">
               Cancel
             </Button>
-            <Button onClick={handleClose} color="primary">
-              Subscribe
+            <Button variant="contained" disableElevation onClick={handleClose} color="primary">
+              Create
             </Button>
           </DialogActions>
         </Dialog>

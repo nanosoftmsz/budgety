@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
-import { Container, CssBaseline, Grid, Card, CardContent, Button, Dialog, DialogContent, Typography, Box } from "@material-ui/core";
+import PropTypes from "prop-types";
+import { Container, CssBaseline, Grid, Card, CardContent, Button, Dialog, DialogContent, Typography, Box, Paper, Tabs, Tab } from "@material-ui/core";
+import TabPanel from "../components/TabPanel";
+import ExpenseHistoryTable from "../components/MonthlyExpense/ExpenseHistoryTable";
+import AddMoneyHistory from "../components/MonthlyExpense/AddMoneyHistory";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,9 +24,32 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(8),
     marginBottom: theme.spacing(4),
   },
+
+  month: {
+    fontWeight: 500,
+  },
 }));
 export default function IndividualMonthExpense() {
   const classes = useStyles();
+  const [value, setValue] = useState(1);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const a11yProps = (index) => {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  };
+
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired,
+  };
+
   const values = [
     { money: 25000, name: "Total Earned", color: "#2979ff" },
     { money: 12500, name: "Total Expense", color: "#e91e63" },
@@ -34,7 +61,7 @@ export default function IndividualMonthExpense() {
       <Container component="main" maxWidth="lg" className={classes.root}>
         <CssBaseline />
         <Box display="flex" justifyContent="center" mb={4}>
-          <Typography variant="h4" color="primary">
+          <Typography variant="h4" color="primary" className={classes.month}>
             January 2020
           </Typography>
         </Box>
@@ -54,14 +81,31 @@ export default function IndividualMonthExpense() {
             </Grid>
           ))}
         </Grid>
+
+        {/* BUTTON LIST */}
         <Grid container justify="flex-end" className={classes.section}>
           <Button variant="outlined" color="primary" className={classes.mr}>
             Add Amount
           </Button>
           <Button variant="contained" color="primary" disableElevation>
-            Add Expenditure
+            Add Expense
           </Button>
         </Grid>
+
+        {/* TABS FOR SAVE AND EXPENDITURE MONEY */}
+        <Paper elevation={0} className={classes.margin}>
+          <Tabs value={value} onChange={handleChange} indicatorColor="primary" centered aria-label="simple tabs example">
+            <Tab label="Money Added History" {...a11yProps(0)} />
+            <Tab label="Expense History" {...a11yProps(1)} />
+          </Tabs>
+        </Paper>
+
+        <TabPanel value={value} index={0}>
+          <AddMoneyHistory />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <ExpenseHistoryTable />
+        </TabPanel>
       </Container>
     </div>
   );
