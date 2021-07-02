@@ -41,8 +41,8 @@ const App = () => {
       secondary: {
         main: "#f50057",
       },
-      pink: {
-        main: "#ff9100",
+      success: {
+        main: "#76ff03",
       },
     },
   });
