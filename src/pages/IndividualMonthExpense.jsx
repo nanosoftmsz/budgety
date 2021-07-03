@@ -23,7 +23,7 @@ import {
 } from "@material-ui/core";
 import TabPanel from "../components/TabPanel";
 import AttachMoneyRoundedIcon from "@material-ui/icons/AttachMoneyRounded";
-import EventNoteIcon from "@material-ui/icons/EventNote";
+import PostAddRoundedIcon from "@material-ui/icons/PostAddRounded";
 import ExpenseHistoryTable from "../components/MonthlyExpense/ExpenseHistoryTable";
 import AddMoneyHistoryTable from "../components/MonthlyExpense/AddMoneyHistoryTable";
 
@@ -119,18 +119,16 @@ export default function IndividualMonthExpense() {
           <Button variant="outlined" color="primary" className={classes.mr} endIcon={<AttachMoneyRoundedIcon />} onClick={() => setAddAmountModal(true)}>
             Add Amount
           </Button>
-          <Button variant="contained" color="primary" disableElevation endIcon={<EventNoteIcon />} onClick={() => setExpenseModal(true)}>
+          <Button variant="contained" color="primary" disableElevation endIcon={<PostAddRoundedIcon />} onClick={() => setExpenseModal(true)}>
             Add Expense
           </Button>
         </Grid>
 
         {/* TABS FOR SAVE AND EXPENDITURE MONEY */}
-        <Paper elevation={0} className={classes.margin}>
-          <Tabs value={value} onChange={handleTabChange} indicatorColor="primary" centered aria-label="simple tabs example">
-            <Tab label="Money Added History" {...a11yProps(0)} />
-            <Tab label="Expense History" {...a11yProps(1)} />
-          </Tabs>
-        </Paper>
+        <Tabs value={value} onChange={handleTabChange} indicatorColor="primary" centered aria-label="simple tabs example">
+          <Tab label="Money Added History" {...a11yProps(0)} />
+          <Tab label="Expense History" {...a11yProps(1)} />
+        </Tabs>
 
         <TabPanel value={value} index={0}>
           <AddMoneyHistoryTable />
