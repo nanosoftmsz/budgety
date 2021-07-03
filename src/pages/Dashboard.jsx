@@ -89,7 +89,7 @@ export default function Dashboard() {
             </Card>
           </Grid>
         </Grid>
-        <Grid container justify="flex-end" className={classes.section}>
+        <Grid container spacing={4} justify="flex-end" className={classes.section}>
           <Grid item>
             <FormControl variant="outlined" fullWidth className={classes.formControl}>
               <InputLabel>Year</InputLabel>
@@ -102,8 +102,8 @@ export default function Dashboard() {
             </FormControl>
           </Grid>
         </Grid>
-        <Grid container spacing={3} alignItems="center" justify="center">
-          <Grid item xs={12} md={6}>
+        <Grid container spacing={4} alignItems="center" justify="center">
+          <Grid item xs={12}>
             <Card>
               <CardContent>
                 <Grid container justify="space-between">
@@ -113,6 +113,20 @@ export default function Dashboard() {
                 </Grid>
                 <Box mt={3}>
                   <GroupBarChart />
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Grid container justify="space-between">
+                  <Grid item>
+                    <Typography variant="subtitle1">Monthly Earned Ratio</Typography>
+                  </Grid>
+                </Grid>
+                <Box mt={3}>
+                  <LineChart />
                 </Box>
               </CardContent>
             </Card>

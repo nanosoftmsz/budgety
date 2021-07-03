@@ -16,7 +16,7 @@ const data = {
     },
     {
       label: "Save",
-      data: [3, 10, 13, 15, 22, 30],
+      data: [3, 10, 13, 15, 22, 450],
       backgroundColor: "#4caf50",
     },
   ],
