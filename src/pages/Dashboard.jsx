@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import MonetizationOnRoundedIcon from "@material-ui/icons/MonetizationOnRounded";
 import ReceiptRoundedIcon from "@material-ui/icons/ReceiptRounded";
 import QueueRoundedIcon from "@material-ui/icons/QueueRounded";
+import GroupBarChart from "../components/Dashboard/GroupBarChart";
 import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   },
   debt: {
     color: "#e91e63",
+  },
+  section: {
+    marginTop: theme.spacing(4),
   },
 }));
 
@@ -74,6 +78,15 @@ export default function Dashboard() {
                     <ReceiptRoundedIcon className={clsx(classes.icon, classes.debt)} />
                   </Grid>
                 </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+        <Grid container alignItems="center" justify="center" className={classes.section}>
+          <Grid item xs={12}>
+            <Card>
+              <CardContent>
+                <GroupBarChart />
               </CardContent>
             </Card>
           </Grid>

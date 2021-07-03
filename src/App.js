@@ -34,9 +34,9 @@ const App = () => {
       },
     },
     palette: {
-      background: {
-        default: "#f5fcff",
-      },
+      // background: {
+      //   default: "#f5fcff",
+      // },
       primary: {
         main: customBlue,
       },
