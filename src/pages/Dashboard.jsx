@@ -1,15 +1,18 @@
 import React from "react";
-import { Container, Grid, Card, CardContent, Typography, Box, CssBaseline } from "@material-ui/core";
+import { Container, Grid, Card, CardContent, Typography, Box, CssBaseline, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import MonetizationOnRoundedIcon from "@material-ui/icons/MonetizationOnRounded";
 import ReceiptRoundedIcon from "@material-ui/icons/ReceiptRounded";
 import QueueRoundedIcon from "@material-ui/icons/QueueRounded";
 import GroupBarChart from "../components/Dashboard/GroupBarChart";
+import LineChart from "../components/Dashboard/LineChart";
+import Copyright from "../components/Copyright";
 import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(6),
+    marginBottom: theme.spacing(6),
   },
   icon: {
     fontSize: "3rem",
@@ -25,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
   },
   section: {
     marginTop: theme.spacing(4),
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
   },
 }));
 
@@ -82,15 +89,51 @@ export default function Dashboard() {
             </Card>
           </Grid>
         </Grid>
-        <Grid container alignItems="center" justify="center" className={classes.section}>
-          <Grid item xs={12}>
+        <Grid container justify="flex-end" className={classes.section}>
+          <Grid item>
+            <FormControl variant="outlined" fullWidth className={classes.formControl}>
+              <InputLabel>Year</InputLabel>
+              <Select label="Year" variant="outlined" margin="dense">
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="2020">2020</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+        <Grid container spacing={3} alignItems="center" justify="center">
+          <Grid item xs={12} md={6}>
             <Card>
               <CardContent>
-                <GroupBarChart />
+                <Grid container justify="space-between">
+                  <Grid item>
+                    <Typography variant="subtitle1">Monthly Save and Expense</Typography>
+                  </Grid>
+                </Grid>
+                <Box mt={3}>
+                  <GroupBarChart />
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Grid container justify="space-between">
+                  <Grid item>
+                    <Typography variant="subtitle1">Monthly Save Ratio</Typography>
+                  </Grid>
+                </Grid>
+                <Box mt={3}>
+                  <LineChart />
+                </Box>
               </CardContent>
             </Card>
           </Grid>
         </Grid>
+        <Grid container className={classes.section}></Grid>
+        <Copyright />
       </Container>
     </div>
   );

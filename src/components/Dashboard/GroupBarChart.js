@@ -2,22 +2,22 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 
 const data = {
-  labels: ["1", "2", "3", "4", "5", "6"],
+  labels: ["Jan 2020", "Feb 2020", "Mar 2020", "Apr 2020", "May 2020", "Jun 2020", "Jul 2020", "Aug 2020", "Sep 2020", "Oct 2020", "Nov 2020", "Dec 2020"],
   datasets: [
     {
       label: "Earned Money",
       data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: "rgb(255, 99, 132)",
+      backgroundColor: "#2979ff",
     },
     {
       label: "Expense",
       data: [2, 3, 20, 5, 1, 4],
-      backgroundColor: "rgb(54, 162, 235)",
+      backgroundColor: "#e91e63",
     },
     {
       label: "Save",
       data: [3, 10, 13, 15, 22, 30],
-      backgroundColor: "rgb(75, 192, 192)",
+      backgroundColor: "#4caf50",
     },
   ],
 };
@@ -34,10 +34,6 @@ const options = {
   },
 };
 
-const GroupBarChart = () => (
-  <>
-    <Bar data={data} options={options} />
-  </>
-);
+const GroupBarChart = () => <Bar data={data} options={options} />;
 
 export default GroupBarChart;
