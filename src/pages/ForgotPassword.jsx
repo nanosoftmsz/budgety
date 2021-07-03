@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, CssBaseline, TextField, Typography, Box, Container, Divider, Card, CardContent, Grid } from "@material-ui/core";
+import React, { useState } from "react";
+import { Button, CssBaseline, TextField, Typography, Box, Container, Card, CardContent, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import Copyright from "../components/Copyright";
@@ -31,18 +31,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ForgotPassword() {
   const classes = useStyles();
+  const [showAlert, setShowAlert] = useState(true);
 
   return (
     <Container component="main" maxWidth="sm">
       <CssBaseline />
-      <Grid container justify="center" className={classes.mt}>
-        <Grid item xs={12}>
-          <Alert severity="success">
-            <AlertTitle>Success</AlertTitle>
-            Please check your email. We've sent you an email with reset link.
-          </Alert>
+      {showAlert && (
+        <Grid container justify="center" className={classes.mt}>
+          <Grid item xs={12}>
+            <Alert severity="success" onClose={() => setShowAlert(false)}>
+              <AlertTitle>Success</AlertTitle>
+              Please check your email. We've sent you an email with reset link.
+            </Alert>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
       <Card className={classes.card}>
         <CardContent>
           <div className={classes.paper}>

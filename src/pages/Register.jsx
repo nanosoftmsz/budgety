@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, CssBaseline, TextField, Typography, Box, Container, FormControlLabel, Checkbox, Card, CardContent, Grid, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+import googleicon from "../assets/img/google.svg";
 import Copyright from "../components/Copyright";
 
 const useStyles = makeStyles((theme) => ({
@@ -12,6 +13,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+
+  gicon: {
+    width: "20px",
+    height: "20px",
+    marginRight: theme.spacing(4),
   },
 
   form: {
@@ -58,6 +65,7 @@ export default function Register() {
               </Box>
 
               <Button size="large" fullWidth color="primary" className={classes.googleBtn}>
+                <img src={googleicon} alt="google icon" className={classes.gicon} />
                 Sign Up with Google
               </Button>
 
