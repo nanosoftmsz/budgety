@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, CssBaseline, TextField, Typography, Box, Container, Divider, Card, CardContent, Grid } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import Copyright from "../components/Copyright";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   mb: {
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(2),
   },
-  googleBtn: {
-    background: "#e3f2fe",
+  mt: {
+    marginTop: theme.spacing(4),
   },
 }));
 
@@ -35,6 +35,14 @@ export default function ForgotPassword() {
   return (
     <Container component="main" maxWidth="sm">
       <CssBaseline />
+      <Grid container justify="center" className={classes.mt}>
+        <Grid item xs={12}>
+          <Alert severity="success">
+            <AlertTitle>Success</AlertTitle>
+            Please check your email. We've sent you an email with reset link.
+          </Alert>
+        </Grid>
+      </Grid>
       <Card className={classes.card}>
         <CardContent>
           <div className={classes.paper}>
