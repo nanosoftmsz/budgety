@@ -135,10 +135,10 @@ export default function MonthlyExpenseList() {
             </MuiPickersUtilsProvider>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="secondary">
+            <Button size="small" onClick={handleClose} color="secondary">
               Cancel
             </Button>
-            <Button variant="contained" disableElevation onClick={handleClose} color="primary">
+            <Button size="small" variant="contained" disableElevation onClick={handleClose} color="primary">
               Create
             </Button>
           </DialogActions>

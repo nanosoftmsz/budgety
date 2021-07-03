@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+export default function ForgotPassword() {
   const classes = useStyles();
 
   return (
@@ -41,43 +41,18 @@ export default function Login() {
             <form className={classes.form}>
               <Box display="flex" justifyContent="center">
                 <Typography variant="h6" color="primary" className={classes.mb}>
-                  Hi, Welcome Back
+                  Forgot password?
                 </Typography>
               </Box>
 
-              <Button size="large" fullWidth color="primary" className={classes.googleBtn}>
-                Sign In with Google
-              </Button>
-
-              <Box my={4}>
-                <Divider component="hr"></Divider>
-              </Box>
-
               <Box display="flex" justifyContent="center">
-                <Typography variant="subtitle1">Sign In With Email Address</Typography>
+                <Typography variant="subtitle1">Enter your email address below and we'll send you password reset OTP.</Typography>
               </Box>
 
               <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" type="email" autoFocus />
-              <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" />
               <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit}>
-                Sign In
+                Send Mail
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link to="/forgot-password">
-                    <Button variant="text" color="primary">
-                      Forgot password?
-                    </Button>
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link to="/register">
-                    <Button variant="text" color="primary">
-                      Don't have an account? Sign Up
-                    </Button>
-                  </Link>
-                </Grid>
-              </Grid>
             </form>
           </div>
         </CardContent>

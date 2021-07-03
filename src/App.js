@@ -11,6 +11,7 @@ import IndividualMonthExpense from "./pages/IndividualMonthExpense";
 import OwnedAndDebt from "./pages/OwnedAndDebt";
 import DetailsOwnedAndDebt from "./components/OwnedAndDebt/DetailsOwnedAndDebt";
 import Dashboard from "./pages/Dashboard";
+import ForgotPassword from "./pages/ForgotPassword";
 const customBlue = blue["A400"];
 
 const App = () => {
@@ -27,7 +28,7 @@ const App = () => {
     overrides: {
       MuiButton: {
         root: {
-          borderRadius: 6,
+          borderRadius: "6px 6px 16px 6px",
           letterSpacing: 1,
           textTransform: "none",
         },
@@ -56,6 +57,7 @@ const App = () => {
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
+          <Route exact path="/forgot-password" component={ForgotPassword} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/monthly-expenditure" component={MonthlyExpenseList} />
           <Route exact path="/monthly-expenditure/:id" component={IndividualMonthExpense} />
