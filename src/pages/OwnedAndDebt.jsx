@@ -45,7 +45,7 @@ export default function OwnedAndDebt() {
             List of Owned / Debt
           </Typography>
         </Box>
-        <Grid container justify="space-between">
+        <Grid container spacing={2} justify="space-between">
           <Button variant="contained" color="primary" disableElevation endIcon={<AddCircleOutlineRoundedIcon />} onClick={() => setAddPersonModal(true)}>
             Add new person
           </Button>

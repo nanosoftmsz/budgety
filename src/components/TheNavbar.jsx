@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import { AppBar, Toolbar, Typography, Button, Hidden, IconButton, Drawer, List, ListItem, ListItemText } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
 import { NavLink, Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  list: {
+    width: 250,
+  },
   buttonStyle: {
     textTransform: "none",
   },
@@ -23,6 +24,33 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TheNavbar() {
   const classes = useStyles();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const toggleDrawer = (open) => (event) => {
+    setIsDrawerOpen(open);
+  };
+
+  const list = () => (
+    <div className={classes.list} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
+      <List>
+        <ListItem button component={Link} to="/dashboard">
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+        <ListItem button component={Link} to="/monthly-expenditure">
+          <ListItemText primary="Monthly Expenditure" />
+        </ListItem>
+        <ListItem button component={Link} to="/owned-and-debt">
+          <ListItemText primary="Owned / Debt" />
+        </ListItem>
+        <ListItem button component={Link} to="/login">
+          <ListItemText primary="Sign In" />
+        </ListItem>
+        <ListItem button component={Link} to="/register">
+          <ListItemText primary="Sign Up" />
+        </ListItem>
+      </List>
+    </div>
+  );
 
   return (
     <div className={classes.root}>
@@ -32,60 +60,74 @@ export default function TheNavbar() {
             <Link to="/">Budgety</Link>
           </Typography>
 
-          <NavLink
-            to="/dashboard"
-            activeStyle={{
-              borderBottom: "3px solid #2979ff",
-              borderRadius: "3px",
-            }}>
-            <Button color="inherit" className={classes.buttonStyle}>
-              Dashboard
-            </Button>
-          </NavLink>
+          {/* SHOW ONLY ON MEDIUM AND SMALLER SIZED DEVICES */}
+          <Hidden lgUp>
+            <IconButton aria-controls="simple-menu" aria-haspopup="true" edge="start" className={classes.menuButton} onClick={toggleDrawer(true)} color="inherit" aria-label="menu">
+              <MenuIcon />
+            </IconButton>
 
-          <NavLink
-            to="/monthly-expenditure"
-            activeStyle={{
-              borderBottom: "3px solid #2979ff",
-              borderRadius: "3px",
-            }}>
-            <Button color="inherit" className={classes.buttonStyle}>
-              Monthly Expenditure
-            </Button>
-          </NavLink>
+            <Drawer anchor={"left"} open={isDrawerOpen} onClose={toggleDrawer(false)}>
+              {list()}
+            </Drawer>
+          </Hidden>
 
-          <NavLink
-            to="/owned-and-debt"
-            activeStyle={{
-              borderBottom: "3px solid #2979ff",
-              borderRadius: "3px",
-            }}>
-            <Button color="inherit" className={classes.buttonStyle}>
-              Owned / Debt
-            </Button>
-          </NavLink>
+          {/* HIDE ONLY ON MEDIUM AND SMALLER SIZE DEVICES */}
+          <Hidden mdDown>
+            <NavLink
+              to="/dashboard"
+              activeStyle={{
+                borderBottom: "3px solid #2979ff",
+                borderRadius: "3px",
+              }}>
+              <Button color="inherit" className={classes.buttonStyle}>
+                Dashboard
+              </Button>
+            </NavLink>
 
-          <NavLink
-            to="/login"
-            activeStyle={{
-              borderBottom: "3px solid #2979ff",
-              borderRadius: "3px",
-            }}>
-            <Button color="inherit" className={classes.buttonStyle}>
-              Log In
-            </Button>
-          </NavLink>
+            <NavLink
+              to="/monthly-expenditure"
+              activeStyle={{
+                borderBottom: "3px solid #2979ff",
+                borderRadius: "3px",
+              }}>
+              <Button color="inherit" className={classes.buttonStyle}>
+                Monthly Expenditure
+              </Button>
+            </NavLink>
 
-          <NavLink
-            to="/register"
-            activeStyle={{
-              borderBottom: "3px solid #1565c0",
-              borderRadius: "3px",
-            }}>
-            <Button color="inherit" className={classes.buttonStyle}>
-              Register
-            </Button>
-          </NavLink>
+            <NavLink
+              to="/owned-and-debt"
+              activeStyle={{
+                borderBottom: "3px solid #2979ff",
+                borderRadius: "3px",
+              }}>
+              <Button color="inherit" className={classes.buttonStyle}>
+                Owned / Debt
+              </Button>
+            </NavLink>
+
+            <NavLink
+              to="/login"
+              activeStyle={{
+                borderBottom: "3px solid #2979ff",
+                borderRadius: "3px",
+              }}>
+              <Button color="inherit" className={classes.buttonStyle}>
+                Log In
+              </Button>
+            </NavLink>
+
+            <NavLink
+              to="/register"
+              activeStyle={{
+                borderBottom: "3px solid #1565c0",
+                borderRadius: "3px",
+              }}>
+              <Button color="inherit" className={classes.buttonStyle}>
+                Register
+              </Button>
+            </NavLink>
+          </Hidden>
         </Toolbar>
       </AppBar>
     </div>

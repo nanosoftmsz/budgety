@@ -54,7 +54,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <UserContext.Provider>
+        <UserContext.Provider value="hello">
           <TheNavbar />
           <Switch>
             <Route exact path="/" component={Home} />
