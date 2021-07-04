@@ -3,6 +3,7 @@ import { Button, CssBaseline, TextField, Typography, Box, Container, FormControl
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import googleicon from "../assets/img/google.svg";
+import { GoogleLogin } from "react-google-login";
 import Copyright from "../components/Copyright";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +46,10 @@ export default function Register() {
     setCreateUser({ ...createUser, [e.target.name]: e.target.value });
   };
 
+  const responseGoogle = (res) => {
+    console.log(res);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(createUser.email);
@@ -63,19 +68,27 @@ export default function Register() {
                   Sign Up
                 </Typography>
               </Box>
-
-              <Button size="large" fullWidth color="primary" className={classes.googleBtn}>
-                <img src={googleicon} alt="google icon" className={classes.gicon} />
-                Sign Up with Google
-              </Button>
-
+              <GoogleLogin
+                clientId="213568195691-3e4k2sli1gfc38ppa5hc3jq097jegqji.apps.googleusercontent.com"
+                render={(renderProps) => (
+                  <Button size="large" fullWidth color="primary" className={classes.googleBtn} onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                    <img src={googleicon} alt="google icon" className={classes.gicon} />
+                    Sign Up with Google
+                  </Button>
+                )}
+                buttonText="Login"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                isSignedIn={true}
+                cookiePolicy={"single_host_origin"}
+              />
+              ,
               <Box my={4}>
                 <Divider component="hr"></Divider>
               </Box>
               <Box display="flex" justifyContent="center">
                 <Typography variant="subtitle1">Sign In With Email Address</Typography>
               </Box>
-
               <TextField variant="outlined" margin="normal" required fullWidth label="Email Address" type="email" name="email" autoFocus onChange={handleChange} />
               <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type={showPasswordCheck ? "text" : "password"} onChange={handleChange} />
               <TextField
