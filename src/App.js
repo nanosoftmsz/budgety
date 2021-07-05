@@ -1,7 +1,9 @@
 import "./App.css";
+import { useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { blue } from "@material-ui/core/colors";
+import { NotificationContainer } from "react-notifications";
 import Login from "./pages/Login";
 import TheNavbar from "./components/TheNavbar";
 import Register from "./pages/Register";
@@ -51,6 +53,7 @@ const theme = createMuiTheme({
   },
 });
 const App = () => {
+  // const [user, setUser] = useState({initialState})
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
@@ -70,6 +73,7 @@ const App = () => {
           </Switch>
         </UserContext.Provider>
       </div>
+      <NotificationContainer />
     </ThemeProvider>
   );
 };

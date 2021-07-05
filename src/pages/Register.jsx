@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Button, CssBaseline, TextField, Typography, Box, Container, FormControlLabel, Checkbox, Card, CardContent, Grid, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import googleicon from "../assets/img/google.svg";
 import { GoogleLogin } from "react-google-login";
 import Copyright from "../components/Copyright";
+import Notification from "../components/Notification";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -39,9 +41,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Register() {
   const classes = useStyles();
+  const history = useHistory();
+
+  // STATES
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
   const [createUser, setCreateUser] = useState({ email: "", password: "", confirmPassword: "" });
 
+  // FUNCTIONS
   const handleChange = (e) => {
     setCreateUser({ ...createUser, [e.target.name]: e.target.value });
   };
@@ -50,10 +56,28 @@ export default function Register() {
     console.log(res);
   };
 
+  const handlePasswordValidation = () => {
+    console.log(createUser.password);
+    console.log(createUser.confirmPassword);
+    if (createUser.password !== createUser.confirmPassword) {
+      Notification("Warning", "Password didn't match", "warning");
+    } else {
+      return true;
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(createUser.email);
-    console.log(createUser.password);
+    if (handlePasswordValidation()) {
+      axios
+        .post("/auth/signup", { email: createUser.email, password: createUser.password })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -89,15 +113,26 @@ export default function Register() {
               <Box display="flex" justifyContent="center">
                 <Typography variant="subtitle1">Sign In With Email Address</Typography>
               </Box>
-              <TextField variant="outlined" margin="normal" required fullWidth label="Email Address" type="email" name="email" autoFocus onChange={handleChange} />
-              <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type={showPasswordCheck ? "text" : "password"} onChange={handleChange} />
+              <TextField variant="outlined" margin="normal" required fullWidth label="Email Address" type="email" name="email" value={createUser.email} autoFocus onChange={handleChange} />
               <TextField
                 variant="outlined"
                 margin="normal"
                 required
                 fullWidth
-                name="confirm_password"
+                name="password"
+                label="Password"
+                value={createUser.password}
+                type={showPasswordCheck ? "text" : "password"}
+                onChange={handleChange}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="confirmPassword"
                 label="Confirm Password"
+                value={createUser.confirmPassword}
                 type={showPasswordCheck ? "text" : "password"}
                 onChange={handleChange}
               />
