@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, CssBaseline, TextField, Typography, Box, Container, FormControlLabel, Checkbox, Card, CardContent, Grid, Divider } from "@material-ui/core";
+import { Button, CssBaseline, TextField, Typography, Box, Container, FormControlLabel, Checkbox, Card, CardContent, Grid, Divider, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, useHistory } from "react-router-dom";
 import googleicon from "../assets/img/google.svg";
@@ -45,6 +45,7 @@ export default function Register() {
 
   // STATES
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [createUser, setCreateUser] = useState({ email: "", password: "", confirmPassword: "" });
 
   // FUNCTIONS
@@ -68,14 +69,24 @@ export default function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     if (handlePasswordValidation()) {
       axios
         .post("/auth/signup", { email: createUser.email, password: createUser.password })
         .then((res) => {
           console.log(res);
+          history.push("/login");
         })
         .catch((err) => {
-          console.log(err);
+          if (err.response.data.message) {
+            Notification("Error", `${err.response.data.message}`, "error");
+          } else {
+            Notification("Error", "Something went wrong. Please check your internet connection", "error");
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+          setCreateUser({ email: "", password: "", confirmPassword: "" });
         });
     }
   };
@@ -141,8 +152,8 @@ export default function Register() {
                   <FormControlLabel control={<Checkbox value="remember" color="primary" onChange={(e) => setShowPasswordCheck(e.target.checked)} />} label="Show Password" />
                 </Grid>
               </Grid>
-              <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit}>
-                Sign Up
+              <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit} disabled={loading}>
+                {loading ? <CircularProgress size={24} color="primary" /> : "Sign Up"}
               </Button>
               <Grid container>
                 <Grid item>
