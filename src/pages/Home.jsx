@@ -19,7 +19,6 @@ export default function Home() {
     <div>
       <Container component="main" maxWidth="lg" className={classes.content}>
         <CssBaseline />
-
         <HeroSection />
         <FeatureSummaryCard />
       </Container>
