@@ -1,21 +1,9 @@
 import "./App.css";
-import { useState } from "react";
-import { Switch, Route } from "react-router-dom";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { blue } from "@material-ui/core/colors";
 import { NotificationContainer } from "react-notifications";
-import Login from "./pages/Login";
-import TheNavbar from "./components/TheNavbar";
-import Register from "./pages/Register";
-import Home from "./pages/Home";
-import MonthlyExpenseList from "./pages/MonthlyExpenseList";
-import IndividualMonthExpense from "./pages/IndividualMonthExpense";
-import OwnedAndDebt from "./pages/OwnedAndDebt";
-import DetailsOwnedAndDebt from "./components/OwnedAndDebt/DetailsOwnedAndDebt";
-import Dashboard from "./pages/Dashboard";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import { UserContext } from "./context/UserContext";
+import MainApp from "./MainApp";
+import { UserContextProvider } from "./context/UserContext";
 const customBlue = blue["A400"];
 
 const theme = createMuiTheme({
@@ -53,25 +41,12 @@ const theme = createMuiTheme({
   },
 });
 const App = () => {
-  // const [user, setUser] = useState({initialState})
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <UserContext.Provider value="hello">
-          <TheNavbar />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/forgot-password" component={ForgotPassword} />
-            <Route exact path="/reset-password" component={ResetPassword} />
-            <Route exact path="/dashboard" component={Dashboard} />
-            <Route exact path="/monthly-expenditure" component={MonthlyExpenseList} />
-            <Route exact path="/monthly-expenditure/:id" component={IndividualMonthExpense} />
-            <Route exact path="/owned-and-debt" component={OwnedAndDebt} />
-            <Route exact path="/owned-and-debt/:id" component={DetailsOwnedAndDebt} />
-          </Switch>
-        </UserContext.Provider>
+        <UserContextProvider>
+          <MainApp />
+        </UserContextProvider>
       </div>
       <NotificationContainer />
     </ThemeProvider>

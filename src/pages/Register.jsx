@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, CssBaseline, TextField, Typography, Box, Container, FormControlLabel, Checkbox, Card, CardContent, Grid, Divider, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, useHistory } from "react-router-dom";
@@ -6,6 +6,7 @@ import googleicon from "../assets/img/google.svg";
 import { GoogleLogin } from "react-google-login";
 import Copyright from "../components/Copyright";
 import Notification from "../components/Notification";
+import { UserContext } from "../context/UserContext";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,10 +43,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
   const history = useHistory();
+  const { loading, setLoading } = useContext(UserContext);
 
   // STATES
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [createUser, setCreateUser] = useState({ email: "", password: "", confirmPassword: "" });
 
   // FUNCTIONS
@@ -76,6 +77,7 @@ export default function Register() {
         .then((res) => {
           console.log(res);
           history.push("/login");
+          Notification("Success", "Account created successfully", "success");
         })
         .catch((err) => {
           if (err.response.data.message) {
@@ -85,6 +87,7 @@ export default function Register() {
           }
         })
         .finally(() => {
+          console.log("finally here");
           setLoading(false);
           setCreateUser({ email: "", password: "", confirmPassword: "" });
         });

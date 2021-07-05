@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import SingleCard from "../components/OwnedAndDebt/SingleCard";
-import { UserContext } from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,8 +30,6 @@ export default function OwnedAndDebt() {
   const classes = useStyles();
   const [addPersonModal, setAddPersonModal] = useState(false);
   const [personInfo, setPersonInfo] = useState({ name: "", phone_number: "" });
-
-  const msg = useContext(UserContext);
 
   const handleChange = (e) => setPersonInfo({ ...personInfo, [e.target.name]: e.target.value });
 
