@@ -120,7 +120,6 @@ export default function Register() {
                 isSignedIn={true}
                 cookiePolicy={"single_host_origin"}
               />
-              ,
               <Box my={4}>
                 <Divider component="hr"></Divider>
               </Box>

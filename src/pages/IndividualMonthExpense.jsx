@@ -14,7 +14,6 @@ import {
   DialogContentText,
   Typography,
   Box,
-  Paper,
   Tabs,
   Tab,
   DialogTitle,

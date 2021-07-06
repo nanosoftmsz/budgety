@@ -3,7 +3,6 @@ import { CssBaseline, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import HeroSection from "../components/Home/HeroSection";
 import FeatureSummaryCard from "../components/Home/FeatureSummaryCard";
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   content: {

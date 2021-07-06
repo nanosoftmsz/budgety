@@ -11,16 +11,7 @@ export default function ProtectedRoute({ component: Component, ...rest }) {
         if (userInfo.userToken || localStorage.getItem("userToken")) {
           return <Component {...props} />;
         } else {
-          return (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: {
-                  from: props.location,
-                },
-              }}
-            />
-          );
+          return <Redirect to={{ pathname: "/login", state: { from: props.location } }} />;
         }
       }}
     />

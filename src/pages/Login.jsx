@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import googleicon from "../assets/img/google.svg";
 import Copyright from "../components/Copyright";
 import Notification from "../components/Notification";
+import { GoogleLogin } from "react-google-login";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
 
@@ -48,6 +49,13 @@ export default function Login() {
 
   const handleChange = (e) => setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });
 
+  const responseGoogle = (res) => {
+    console.log(res);
+    if (res.profileObj) {
+      setUserInfo.userEmail(res.profileObj.email);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -89,10 +97,20 @@ export default function Login() {
                 </Typography>
               </Box>
 
-              <Button size="large" fullWidth color="primary" className={classes.googleBtn}>
-                <img src={googleicon} alt="google icon" className={classes.gicon} />
-                Sign In with Google
-              </Button>
+              <GoogleLogin
+                clientId="213568195691-3e4k2sli1gfc38ppa5hc3jq097jegqji.apps.googleusercontent.com"
+                render={(renderProps) => (
+                  <Button size="large" fullWidth color="primary" className={classes.googleBtn} onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                    <img src={googleicon} alt="google icon" className={classes.gicon} />
+                    Sign Up with Google
+                  </Button>
+                )}
+                buttonText="Login"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                isSignedIn={true}
+                cookiePolicy={"single_host_origin"}
+              />
 
               <Box my={4}>
                 <Divider component="hr"></Divider>
