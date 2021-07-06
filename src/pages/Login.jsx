@@ -52,7 +52,22 @@ export default function Login() {
   const responseGoogle = (res) => {
     console.log(res);
     if (res.profileObj) {
-      setUserInfo.userEmail(res.profileObj.email);
+      axios
+        .post("/auth/signin-google", { email: res.profileObj.email })
+        .then((res) => {
+          setUserInfo({ userId: res.data.data._id, userEmail: res.data.data.email, userToken: res.data.data.token });
+          localStorage.setItem("userId", res.data.data._id);
+          localStorage.setItem("userEmail", res.data.data.email);
+          localStorage.setItem("userToken", res.data.data.token);
+          history.push("/dashboard");
+        })
+        .catch((err) => {
+          if (err.response.data.message) {
+            Notification("Error", `${err.response.data.message}`, "error");
+          } else {
+            Notification("Error", "Something went wrong. Please check your internet connection", "error");
+          }
+        });
     }
   };
 
@@ -102,13 +117,12 @@ export default function Login() {
                 render={(renderProps) => (
                   <Button size="large" fullWidth color="primary" className={classes.googleBtn} onClick={renderProps.onClick} disabled={renderProps.disabled}>
                     <img src={googleicon} alt="google icon" className={classes.gicon} />
-                    Sign Up with Google
+                    Sign In with Google
                   </Button>
                 )}
                 buttonText="Login"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
-                isSignedIn={true}
                 cookiePolicy={"single_host_origin"}
               />
 

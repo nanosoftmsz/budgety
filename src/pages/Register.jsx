@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
   const history = useHistory();
-  const { loading, setLoading } = useContext(UserContext);
+  const { loading, setLoading, setUserInfo, userInfo } = useContext(UserContext);
 
   // STATES
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
@@ -56,6 +56,24 @@ export default function Register() {
 
   const responseGoogle = (res) => {
     console.log(res);
+    if (res.profileObj) {
+      axios
+        .post("/auth/signin-google", { email: res.profileObj.email })
+        .then((res) => {
+          setUserInfo({ userId: res.data.data._id, userEmail: res.data.data.email, userToken: res.data.data.token });
+          localStorage.setItem("userId", res.data.data._id);
+          localStorage.setItem("userEmail", res.data.data.email);
+          localStorage.setItem("userToken", res.data.data.token);
+          history.push("/dashboard");
+        })
+        .catch((err) => {
+          if (err.response.data.message) {
+            Notification("Error", `${err.response.data.message}`, "error");
+          } else {
+            Notification("Error", "Something went wrong. Please check your internet connection", "error");
+          }
+        });
+    }
   };
 
   const handlePasswordValidation = () => {
@@ -117,7 +135,6 @@ export default function Register() {
                 buttonText="Login"
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
-                isSignedIn={true}
                 cookiePolicy={"single_host_origin"}
               />
               <Box my={4}>
