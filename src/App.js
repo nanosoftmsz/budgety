@@ -2,7 +2,7 @@ import "./App.css";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { blue } from "@material-ui/core/colors";
 import { NotificationContainer } from "react-notifications";
-import MainApp from "./MainApp";
+import MainApp from "./layout/MainApp";
 import { UserContextProvider } from "./context/UserContext";
 const customBlue = blue["A400"];
 
