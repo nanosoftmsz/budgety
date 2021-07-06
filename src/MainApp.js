@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Switch, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import TheNavbar from "./components/TheNavbar";
@@ -13,11 +14,12 @@ import ResetPassword from "./pages/ResetPassword";
 import { UserContext } from "./context/UserContext";
 
 export default function MainApp() {
+  const { userInfo } = useContext(UserContext);
   return (
     <div>
       <TheNavbar />
       <Switch>
-        {localStorage.getItem("userToken") ? (
+        {userInfo.userToken || localStorage.getItem("userToken") ? (
           <>
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/monthly-expenditure" component={MonthlyExpenseList} />

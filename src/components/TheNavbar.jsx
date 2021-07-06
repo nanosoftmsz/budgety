@@ -42,7 +42,7 @@ export default function TheNavbar() {
   const list = () => (
     <div className={classes.list} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
       <List>
-        {localStorage.getItem("userToken") ? (
+        {userInfo.userToken || localStorage.getItem("userToken") ? (
           <>
             <ListItem button component={Link} to="/dashboard">
               <ListItemText primary="Dashboard" />
@@ -92,7 +92,7 @@ export default function TheNavbar() {
 
           {/* HIDE ONLY ON MEDIUM AND SMALLER SIZE DEVICES */}
           <Hidden mdDown>
-            {localStorage.getItem("userToken") ? (
+            {userInfo.userToken || localStorage.getItem("userToken") ? (
               <>
                 <NavLink
                   to="/dashboard"
