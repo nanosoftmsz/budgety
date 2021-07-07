@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, CssBaseline, TextField, Typography, Box, Container, Card, CardContent, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Alert, AlertTitle } from "@material-ui/lab";
-import Copyright from "../components/Copyright";
+import Copyright from "../components/Common/Copyright";
 
 const useStyles = makeStyles((theme) => ({
   card: {

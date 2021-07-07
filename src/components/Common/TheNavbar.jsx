@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography, Button, Hidden, IconButton, Drawer, List, ListItem, ListItemText } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavLink, Link, useHistory } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {

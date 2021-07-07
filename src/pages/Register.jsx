@@ -4,11 +4,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link, useHistory } from "react-router-dom";
 import googleicon from "../assets/img/google.svg";
 import { GoogleLogin } from "react-google-login";
-import Copyright from "../components/Copyright";
-import Notification from "../components/Notification";
+import Copyright from "../components/Common/Copyright";
+import Notification from "../components/Common/Notification";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
-import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
+import PasswordStrengthMeter from "../components/Common/PasswordStrengthMeter";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
   const history = useHistory();
-  const { loading, setLoading, setUserInfo, userInfo } = useContext(UserContext);
+  const { loading, setLoading, setUserInfo } = useContext(UserContext);
 
   // STATES
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);

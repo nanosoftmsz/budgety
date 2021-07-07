@@ -5,8 +5,8 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import googleicon from "../assets/img/google.svg";
-import Copyright from "../components/Copyright";
-import Notification from "../components/Notification";
+import Copyright from "../components/Common/Copyright";
+import Notification from "../components/Common/Notification";
 import { GoogleLogin } from "react-google-login";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
@@ -101,7 +101,6 @@ export default function Login() {
       .finally(() => {
         console.log("finally here");
         setLoading(false);
-        setLoginInfo({ email: "", password: "" });
       });
   };
 

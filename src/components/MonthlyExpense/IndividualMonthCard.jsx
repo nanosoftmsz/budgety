@@ -10,16 +10,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function IndividualMonthCard() {
+export default function IndividualMonthCard({ info }) {
   const classes = useStyles();
   return (
     <div>
-      <Link to="/monthly-expenditure/5">
+      <Link to={`/monthly-expenditure/${info._id}`}>
         <Card>
           <CardContent>
             <Grid container alignItems="center" justify="space-between">
               <Grid item>
-                <Typography variant="h6">January 2020</Typography>
+                <Typography variant="h6">{info.name}</Typography>
               </Grid>
               <Grid item>
                 <ArrowRightAltRoundedIcon fontSize="large" className={classes.mt} />
