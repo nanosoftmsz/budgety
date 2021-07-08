@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
@@ -25,6 +25,10 @@ import AttachMoneyRoundedIcon from "@material-ui/icons/AttachMoneyRounded";
 import PostAddRoundedIcon from "@material-ui/icons/PostAddRounded";
 import ExpenseHistoryTable from "../components/MonthlyExpense/ExpenseHistoryTable";
 import AddMoneyHistoryTable from "../components/MonthlyExpense/AddMoneyHistoryTable";
+import Notification from "../components/Common/Notification";
+import { UserContext } from "../context/UserContext";
+import { bearerToken } from "../utils/constant";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,11 +54,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function IndividualMonthExpense() {
   const classes = useStyles();
+  const { id } = useParams();
+  const { loading, setLoading } = useContext(UserContext);
   const [value, setValue] = useState(1);
   const [addAmountModal, setAddAmountModal] = useState(false);
   const [expenseModal, setExpenseModal] = useState(false);
+  const [data, setData] = useState([]);
   const [addAmount, setAddAmount] = useState({ nameOfSource: "", amount: 0 });
   const [expenseInfo, setExpenseInfo] = useState({ expensePurpose: "", description: "", amount: 0 });
+
+  useEffect(() => {
+    axios
+      .get(`months/${localStorage.getItem("userId")}/${id}`, bearerToken)
+      .then((res) => {
+        console.log(res);
+        setData(res.data.data);
+      })
+      .catch((err) => {
+        if (err.response.data?.message) {
+          Notification("Error", `${err.response.data.message}`, "error");
+        } else {
+          Notification("Error", "Something went wrong. Please check your internet connection", "error");
+        }
+      });
+  }, []);
 
   const handleAddAmountSubmit = (e) => {
     e.preventDefault();
@@ -81,36 +104,54 @@ export default function IndividualMonthExpense() {
     value: PropTypes.any.isRequired,
   };
 
-  const values = [
-    { money: 25000, name: "Total Earned", color: "#2979ff" },
-    { money: 12500, name: "Total Expense", color: "#e91e63" },
-    { money: 5000, name: "Total Save", color: "#00c853" },
-  ];
-  const { id } = useParams();
   return (
     <div>
       <Container component="main" maxWidth="lg" className={classes.root}>
         <CssBaseline />
         <Box display="flex" justifyContent="center" mb={4}>
           <Typography variant="h4" color="primary" className={classes.month}>
-            January 2020
+            {data.name}
           </Typography>
         </Box>
         <Grid container spacing={4} alignItems="center">
-          {values.map((v) => (
-            <Grid item xs={12} md={4} key={v.name}>
-              <Card>
-                <CardContent>
-                  <Grid container direction="column" justify="center" alignItems="center">
-                    <Typography variant="h3"> {v.money.toLocaleString()} </Typography>
-                    <Typography variant="h6" style={{ color: `${v.color}` }}>
-                      {v.name}
-                    </Typography>
-                  </Grid>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  <Typography variant="h3"> {data.earned ? data.earned.toLocaleString() : 0} </Typography>
+                  <Typography variant="h6" style={{ color: "#2979ff" }}>
+                    Total Earned
+                  </Typography>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  <Typography variant="h3"> {data.expense ? data.expense.toLocaleString() : 0} </Typography>
+                  <Typography variant="h6" style={{ color: "#e91e63" }}>
+                    Total Expense
+                  </Typography>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  <Typography variant="h3"> {data.saved ? data.saved.toLocaleString() : 0} </Typography>
+                  <Typography variant="h6" style={{ color: "#00c853" }}>
+                    Total Save
+                  </Typography>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
 
         {/* BUTTON LIST */}

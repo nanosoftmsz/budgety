@@ -32,6 +32,7 @@ import LoadingState from "../components/Common/LoadingState";
 import Notification from "../components/Common/Notification";
 import { bearerToken } from "../utils/constant";
 import { UserContext } from "../context/UserContext";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,6 +79,10 @@ export default function MonthlyExpenseList() {
 
   useEffect(() => {
     setLoading(true);
+    getAllMonths();
+  }, []);
+
+  const getAllMonths = () => {
     axios
       .get(`/months/${localStorage.getItem("userId")}`, bearerToken)
       .then((res) => {
@@ -92,7 +97,7 @@ export default function MonthlyExpenseList() {
         }
       })
       .finally(() => setLoading(false));
-  }, []);
+  };
 
   const handleMonthChange = (date) => {
     setSelectedMonth(date);
@@ -104,14 +109,15 @@ export default function MonthlyExpenseList() {
 
   const createMonth = (e) => {
     e.preventDefault();
-    const month = selectedMonth.toLocaleString("default", { month: "long" });
-    const year = selectedMonth.getFullYear();
+    let monthYear = moment(selectedMonth).format("LL");
+    monthYear = monthYear.split(" ");
     setLoading(true);
 
     axios
-      .post("/months", { name: `${month} ${year}`, user: localStorage.getItem("userId") }, bearerToken)
+      .post("/months", { name: `${monthYear[0]} ${monthYear[2]}`, user: localStorage.getItem("userId") }, bearerToken)
       .then(() => {
         Notification("Success", "Month created successfully", "success");
+        getAllMonths();
       })
       .catch((err) => {
         if (err.response.data.message) {
@@ -120,7 +126,7 @@ export default function MonthlyExpenseList() {
           Notification("Error", "Something went wrong. Please check your internet connection", "error");
         }
       })
-      .finally(() => setLoading(false));
+      .finally(() => setLoading(false), setOpen(false));
   };
 
   return (
@@ -213,7 +219,7 @@ export default function MonthlyExpenseList() {
               <Button size="small" onClick={dialogClose} color="secondary">
                 Cancel
               </Button>
-              <Button size="small" variant="contained" disableElevation type="submit" color="primary">
+              <Button size="small" variant="contained" disableElevation type="submit" color="primary" disabled={loading}>
                 {loading ? <CircularProgress size={24} color="primary" /> : "Create"}
               </Button>
             </DialogActions>
