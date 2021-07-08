@@ -77,12 +77,8 @@ export default function MonthlyExpenseList() {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [monthName, setMonthName] = useState([]);
 
-  useEffect(() => {
-    setLoading(true);
-    getAllMonths();
-  }, []);
-
   const getAllMonths = () => {
+    setLoading(true);
     axios
       .get(`/months/${localStorage.getItem("userId")}`, bearerToken)
       .then((res) => {
@@ -98,6 +94,8 @@ export default function MonthlyExpenseList() {
       })
       .finally(() => setLoading(false));
   };
+
+  useEffect(() => getAllMonths(), []);
 
   const handleMonthChange = (date) => {
     setSelectedMonth(date);

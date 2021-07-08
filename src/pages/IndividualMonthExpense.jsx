@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
@@ -26,7 +26,6 @@ import PostAddRoundedIcon from "@material-ui/icons/PostAddRounded";
 import ExpenseHistoryTable from "../components/MonthlyExpense/ExpenseHistoryTable";
 import AddMoneyHistoryTable from "../components/MonthlyExpense/AddMoneyHistoryTable";
 import Notification from "../components/Common/Notification";
-import { UserContext } from "../context/UserContext";
 import { bearerToken } from "../utils/constant";
 import axios from "axios";
 
@@ -55,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
 export default function IndividualMonthExpense() {
   const classes = useStyles();
   const { id } = useParams();
-  const { loading, setLoading } = useContext(UserContext);
   const [value, setValue] = useState(1);
   const [addAmountModal, setAddAmountModal] = useState(false);
   const [expenseModal, setExpenseModal] = useState(false);
