@@ -63,7 +63,7 @@ export default function IndividualMonthExpense() {
   const [addAmount, setAddAmount] = useState({ nameOfSource: "", amount: 0 });
   const [expenseInfo, setExpenseInfo] = useState({ expensePurpose: "", description: "", amount: 0 });
 
-  useEffect(() => {
+  const getIndividualMonthData = () => {
     axios
       .get(`months/${localStorage.getItem("userId")}/${id}`, bearerToken)
       .then((res) => {
@@ -77,6 +77,10 @@ export default function IndividualMonthExpense() {
           Notification("Error", "Something went wrong. Please check your internet connection", "error");
         }
       });
+  };
+
+  useEffect(() => {
+    getIndividualMonthData();
   }, []);
 
   const handleAddAmountSubmit = (e) => {
@@ -96,6 +100,7 @@ export default function IndividualMonthExpense() {
       .then((res) => {
         console.log(res);
         Notification("Success", "Amount added successfully", "success");
+        getIndividualMonthData();
       })
       .catch((err) => {
         if (err.response.data?.message) {
@@ -108,6 +113,31 @@ export default function IndividualMonthExpense() {
 
   const handleExpenseSubmit = (e) => {
     e.preventDefault();
+    setExpenseModal(false);
+    axios
+      .post(
+        "/expense-histories",
+        {
+          purpose: expenseInfo.expensePurpose,
+          description: expenseInfo.description || "N/A",
+          amount: expenseInfo.amount,
+          user: data.user,
+          month: data._id,
+        },
+        bearerToken
+      )
+      .then((res) => {
+        console.log(res);
+        Notification("Success", "Amount added successfully", "success");
+        getIndividualMonthData();
+      })
+      .catch((err) => {
+        if (err.response.data?.message) {
+          Notification("Error", `${err.response.data.message}`, "error");
+        } else {
+          Notification("Error", "Something went wrong. Please check your internet connection", "error");
+        }
+      });
   };
 
   const handleTabChange = (event, newValue) => {
@@ -115,6 +145,7 @@ export default function IndividualMonthExpense() {
   };
 
   const handleAddAmountChange = (e) => setAddAmount({ ...addAmount, [e.target.name]: e.target.value });
+  const handleExpenseAmountChange = (e) => setExpenseInfo({ ...expenseInfo, [e.target.name]: e.target.value });
 
   const a11yProps = (index) => {
     return {
@@ -196,10 +227,10 @@ export default function IndividualMonthExpense() {
         </Tabs>
 
         <TabPanel value={value} index={0}>
-          <AddMoneyHistoryTable />
+          <AddMoneyHistoryTable addHistory={data.Income} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <ExpenseHistoryTable />
+          <ExpenseHistoryTable expenseHistory={data.Expense} />
         </TabPanel>
 
         {/* ADD AMOUNT MODAL */}
@@ -229,9 +260,19 @@ export default function IndividualMonthExpense() {
             <DialogTitle id="form-dialog-title">Add Expense Info</DialogTitle>
             <DialogContent>
               <DialogContentText>You can add monthly expense from here. </DialogContentText>
-              <TextField autoFocus margin="normal" variant="outlined" name="purpose" label="Expense Purpose" required fullWidth />
-              <TextField margin="normal" variant="outlined" name="description" label="Description" fullWidth />
-              <TextField margin="normal" variant="outlined" name="amount" label="Amount" type="number" required fullWidth />
+              <TextField
+                autoFocus
+                margin="normal"
+                variant="outlined"
+                name="expensePurpose"
+                label="Expense Purpose"
+                required
+                fullWidth
+                value={expenseInfo.expensePurpose}
+                onChange={handleExpenseAmountChange}
+              />
+              <TextField margin="normal" variant="outlined" name="description" label="Description" fullWidth value={expenseInfo.description} onChange={handleExpenseAmountChange} />
+              <TextField margin="normal" variant="outlined" name="amount" label="Amount" type="number" required fullWidth value={expenseInfo.amount} onChange={handleExpenseAmountChange} />
               <small>* indicates required field</small>
             </DialogContent>
             <DialogActions>
