@@ -22,7 +22,7 @@ export default function IndividualMonthCard() {
                 <Typography variant="h6">January 2020</Typography>
               </Grid>
               <Grid item>
-                <ArrowRightAltRoundedIcon fontSize="large" className={classes.mt} />
+                <ArrowRightAltRoundedIcon className={classes.mt} color="primary" />
               </Grid>
             </Grid>
           </CardContent>
