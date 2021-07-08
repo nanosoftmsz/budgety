@@ -91,7 +91,7 @@ export default function IndividualMonthExpense() {
         "/income-histories",
         {
           source: addAmount.nameOfSource,
-          amount: addAmount.amount,
+          amount: addAmount.amount * 1,
           user: data.user,
           month: data._id,
         },
@@ -108,7 +108,8 @@ export default function IndividualMonthExpense() {
         } else {
           Notification("Error", "Something went wrong. Please check your internet connection", "error");
         }
-      });
+      })
+      .finally(() => setAddAmount({ nameOfSource: "", amount: 0 }));
   };
 
   const handleExpenseSubmit = (e) => {
@@ -120,7 +121,7 @@ export default function IndividualMonthExpense() {
         {
           purpose: expenseInfo.expensePurpose,
           description: expenseInfo.description || "N/A",
-          amount: expenseInfo.amount,
+          amount: expenseInfo.amount * 1,
           user: data.user,
           month: data._id,
         },
@@ -137,7 +138,8 @@ export default function IndividualMonthExpense() {
         } else {
           Notification("Error", "Something went wrong. Please check your internet connection", "error");
         }
-      });
+      })
+      .finally(() => setExpenseInfo({ expensePurpose: "", description: "", amount: 0 }));
   };
 
   const handleTabChange = (event, newValue) => {
