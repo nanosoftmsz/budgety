@@ -81,6 +81,29 @@ export default function IndividualMonthExpense() {
 
   const handleAddAmountSubmit = (e) => {
     e.preventDefault();
+    setAddAmountModal(false);
+    axios
+      .post(
+        "/income-histories",
+        {
+          source: addAmount.nameOfSource,
+          amount: addAmount.amount,
+          user: data.user,
+          month: data._id,
+        },
+        bearerToken
+      )
+      .then((res) => {
+        console.log(res);
+        Notification("Success", "Amount added successfully", "success");
+      })
+      .catch((err) => {
+        if (err.response.data?.message) {
+          Notification("Error", `${err.response.data.message}`, "error");
+        } else {
+          Notification("Error", "Something went wrong. Please check your internet connection", "error");
+        }
+      });
   };
 
   const handleExpenseSubmit = (e) => {
@@ -90,6 +113,8 @@ export default function IndividualMonthExpense() {
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const handleAddAmountChange = (e) => setAddAmount({ ...addAmount, [e.target.name]: e.target.value });
 
   const a11yProps = (index) => {
     return {
@@ -183,8 +208,8 @@ export default function IndividualMonthExpense() {
             <DialogTitle id="form-dialog-title">Add Monthly Amount</DialogTitle>
             <DialogContent>
               <DialogContentText>You can add monthly amount from which the expenditure money will be deducted. </DialogContentText>
-              <TextField autoFocus margin="normal" variant="outlined" name="source" label="Money Source" required fullWidth />
-              <TextField margin="normal" variant="outlined" name="amount" label="Amount" type="number" required fullWidth />
+              <TextField autoFocus margin="normal" variant="outlined" name="nameOfSource" label="Money Source" required fullWidth value={addAmount.nameOfSource} onChange={handleAddAmountChange} />
+              <TextField margin="normal" variant="outlined" name="amount" label="Amount" type="number" required fullWidth value={addAmount.amount} onChange={handleAddAmountChange} />
               <small>* indicates required field</small>
             </DialogContent>
             <DialogActions>
@@ -200,7 +225,7 @@ export default function IndividualMonthExpense() {
 
         {/* EXPENSE DIALOG */}
         <Dialog open={expenseModal} onClose={() => setExpenseModal(false)} aria-labelledby="form-dialog-title">
-          <form onSubmit={handleAddAmountSubmit}>
+          <form onSubmit={handleExpenseSubmit}>
             <DialogTitle id="form-dialog-title">Add Expense Info</DialogTitle>
             <DialogContent>
               <DialogContentText>You can add monthly expense from here. </DialogContentText>
