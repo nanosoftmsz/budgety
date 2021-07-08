@@ -229,10 +229,10 @@ export default function IndividualMonthExpense() {
         </Tabs>
 
         <TabPanel value={value} index={0}>
-          <AddMoneyHistoryTable addHistory={data.Income} />
+          <AddMoneyHistoryTable addHistory={data.Income} fetchData={getIndividualMonthData} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <ExpenseHistoryTable expenseHistory={data.Expense} />
+          <ExpenseHistoryTable expenseHistory={data.Expense} fetchData={getIndividualMonthData} />
         </TabPanel>
 
         {/* ADD AMOUNT MODAL */}
