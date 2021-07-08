@@ -99,6 +99,7 @@ export default function MonthlyExpenseList() {
 
   const handleMonthChange = (date) => {
     setSelectedMonth(date);
+    console.log(date);
   };
 
   const dialogClose = () => {

@@ -1,13 +1,19 @@
-import React from "react";
-import { Container, Grid, Card, CardContent, Typography, Box, CssBaseline, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { Container, Grid, Card, CardContent, Typography, Box, CssBaseline, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
+import DateMomentUtils from "@date-io/moment";
 import MonetizationOnRoundedIcon from "@material-ui/icons/MonetizationOnRounded";
 import ReceiptRoundedIcon from "@material-ui/icons/ReceiptRounded";
 import QueueRoundedIcon from "@material-ui/icons/QueueRounded";
 import GroupBarChart from "../components/Dashboard/GroupBarChart";
-import LineChart from "../components/Dashboard/LineChart";
+import MonthlyEarnedLineChart from "../components/Dashboard/MonthlyEarnedLineChart";
+import MonthlySavedLineChart from "../components/Dashboard/MonthlySavedLineChart";
 import Copyright from "../components/Common/Copyright";
 import clsx from "clsx";
+import moment from "moment";
+import axios from "axios";
+import { bearerToken } from "../utils/constant";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +43,45 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
+
+  const [selectedYear, setSelectedYear] = useState(new Date());
+  const [dashboardCharts, setDashboardCharts] = useState();
+
+  useEffect(() => {
+    let year = moment().format("LL");
+    year = year.split(" ");
+
+    axios
+      .post("/dashboard/chart", { user: localStorage.getItem("userId"), year: year[2] }, bearerToken)
+      .then((res) => {
+        console.log(res);
+        setDashboardCharts(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleYearChange = (date) => {
+    setSelectedYear(date);
+    console.log(date);
+    // getSelectedMonthInfo();
+  };
+
+  const getSelectedMonthInfo = () => {
+    let year = moment(selectedYear).format("LL");
+    year = year.split(" ");
+    console.log(year[2]);
+    axios
+      .post("/dashboard/chart", { user: localStorage.getItem("userId"), year: year[2] }, bearerToken)
+      .then((res) => {
+        console.log(res);
+        setDashboardCharts(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div>
@@ -89,20 +134,35 @@ export default function Dashboard() {
             </Card>
           </Grid>
         </Grid>
-        <Grid container spacing={4} justify="flex-end" className={classes.section}>
+        <Grid container spacing={2} justify="flex-end" alignItems="center" className={classes.section}>
           <Grid item>
-            <FormControl variant="outlined" fullWidth className={classes.formControl}>
-              <InputLabel>Year</InputLabel>
-              <Select label="Year" variant="outlined" margin="dense">
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value="2020">2020</MenuItem>
-              </Select>
-            </FormControl>
+            <MuiPickersUtilsProvider utils={DateMomentUtils}>
+              <KeyboardDatePicker
+                disableFuture
+                disableToolbar
+                autoOk
+                fullWidth
+                variant="inline"
+                inputVariant="outlined"
+                margin="dense"
+                views={["year"]}
+                id="date-picker-inline"
+                label="Pick Your Desired Year"
+                value={selectedYear}
+                onChange={handleYearChange}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+              />
+            </MuiPickersUtilsProvider>
+          </Grid>
+          <Grid item>
+            <Button size="small" disableElevation variant="contained" color="primary" onClick={getSelectedMonthInfo}>
+              Submit
+            </Button>
           </Grid>
         </Grid>
-        <Grid container spacing={4} alignItems="center" justify="center">
+        <Grid container spacing={3} alignItems="center" justify="center">
           <Grid item xs={12}>
             <Card>
               <CardContent>
@@ -112,7 +172,7 @@ export default function Dashboard() {
                   </Grid>
                 </Grid>
                 <Box mt={3}>
-                  <GroupBarChart />
+                  <GroupBarChart barChartData={dashboardCharts?.MonthlyEarnedExpenseSave} />
                 </Box>
               </CardContent>
             </Card>
@@ -126,7 +186,7 @@ export default function Dashboard() {
                   </Grid>
                 </Grid>
                 <Box mt={3}>
-                  <LineChart />
+                  <MonthlyEarnedLineChart monthlyEarnedLineChart={dashboardCharts?.MonthlyEarned} />
                 </Box>
               </CardContent>
             </Card>
@@ -140,7 +200,7 @@ export default function Dashboard() {
                   </Grid>
                 </Grid>
                 <Box mt={3}>
-                  <LineChart />
+                  <MonthlySavedLineChart monthlySavedLineChart={dashboardCharts?.MonthlySave} />
                 </Box>
               </CardContent>
             </Card>

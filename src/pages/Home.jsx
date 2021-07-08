@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { CssBaseline, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import HeroSection from "../components/Home/HeroSection";

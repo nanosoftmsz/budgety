@@ -1,39 +1,53 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 
-const data = {
-  labels: ["Jan 2020", "Feb 2020", "Mar 2020", "Apr 2020", "May 2020", "Jun 2020", "Jul 2020", "Aug 2020", "Sep 2020", "Oct 2020", "Nov 2020", "Dec 2020"],
-  datasets: [
-    {
-      label: "Earned Money",
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: "#2979ff",
-    },
-    {
-      label: "Expense",
-      data: [2, 3, 20, 5, 1, 4],
-      backgroundColor: "#e91e63",
-    },
-    {
-      label: "Save",
-      data: [3, 10, 13, 15, 22, 450],
-      backgroundColor: "#4caf50",
-    },
-  ],
-};
+export default function GroupBarChart({ barChartData }) {
+  console.log(barChartData);
+  let monthName = [],
+    earned = [],
+    expense = [],
+    saved = [];
 
-const options = {
-  scales: {
-    yAxes: [
+  barChartData?.map((el) => monthName.push(el.name));
+  barChartData?.map((el) => earned.push(el.earned));
+  barChartData?.map((el) => expense.push(el.expense));
+  barChartData?.map((el) => saved.push(el.saved));
+
+  const data = {
+    labels: monthName,
+    datasets: [
       {
-        ticks: {
-          beginAtZero: true,
-        },
+        label: "Earned Money",
+        data: earned,
+        backgroundColor: "#2979ff",
+      },
+      {
+        label: "Expense",
+        data: expense,
+        backgroundColor: "#e91e63",
+      },
+      {
+        label: "Save",
+        data: saved,
+        backgroundColor: "#4caf50",
       },
     ],
-  },
-};
+  };
 
-const GroupBarChart = () => <Bar data={data} options={options} />;
-
-export default GroupBarChart;
+  const options = {
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+  };
+  return (
+    <div>
+      <Bar data={data} options={options} />
+    </div>
+  );
+}
