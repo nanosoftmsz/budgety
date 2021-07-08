@@ -45,11 +45,13 @@ export default function Dashboard() {
   const classes = useStyles();
 
   const [selectedYear, setSelectedYear] = useState(new Date());
+  const [currentYear, setCurrentYear] = useState("");
   const [dashboardCharts, setDashboardCharts] = useState();
 
   useEffect(() => {
     let year = moment().format("LL");
     year = year.split(" ");
+    setCurrentYear(year[2]);
 
     axios
       .post("/dashboard/chart", { user: localStorage.getItem("userId"), year: year[2] }, bearerToken)
@@ -64,14 +66,10 @@ export default function Dashboard() {
 
   const handleYearChange = (date) => {
     setSelectedYear(date);
-    console.log(date);
-    // getSelectedMonthInfo();
-  };
-
-  const getSelectedMonthInfo = () => {
-    let year = moment(selectedYear).format("LL");
+    let year = moment(date).format("LL");
     year = year.split(" ");
-    console.log(year[2]);
+    setCurrentYear(year[2]);
+
     axios
       .post("/dashboard/chart", { user: localStorage.getItem("userId"), year: year[2] }, bearerToken)
       .then((res) => {
@@ -156,11 +154,6 @@ export default function Dashboard() {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item>
-            <Button size="small" disableElevation variant="contained" color="primary" onClick={getSelectedMonthInfo}>
-              Submit
-            </Button>
-          </Grid>
         </Grid>
         <Grid container spacing={3} alignItems="center" justify="center">
           <Grid item xs={12}>
@@ -168,7 +161,7 @@ export default function Dashboard() {
               <CardContent>
                 <Grid container justify="space-between">
                   <Grid item>
-                    <Typography variant="subtitle1">Monthly Save and Expense</Typography>
+                    <Typography variant="subtitle1">Monthly Save and Expense for year {currentYear}</Typography>
                   </Grid>
                 </Grid>
                 <Box mt={3}>
@@ -182,7 +175,7 @@ export default function Dashboard() {
               <CardContent>
                 <Grid container justify="space-between">
                   <Grid item>
-                    <Typography variant="subtitle1">Monthly Earned Ratio</Typography>
+                    <Typography variant="subtitle1">Monthly Earned Ratio for year {currentYear}</Typography>
                   </Grid>
                 </Grid>
                 <Box mt={3}>
@@ -196,7 +189,7 @@ export default function Dashboard() {
               <CardContent>
                 <Grid container justify="space-between">
                   <Grid item>
-                    <Typography variant="subtitle1">Monthly Save Ratio</Typography>
+                    <Typography variant="subtitle1">Monthly Save Ratio for year {currentYear}</Typography>
                   </Grid>
                 </Grid>
                 <Box mt={3}>
