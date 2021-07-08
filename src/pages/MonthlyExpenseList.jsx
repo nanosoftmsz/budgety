@@ -1,5 +1,23 @@
-import React, { useState } from "react";
-import { Container, Grid, Tooltip, Paper, Typography, Box, TextField, Divider, Dialog, DialogTitle, DialogContent, Button, DialogActions, DialogContentText, InputAdornment } from "@material-ui/core";
+import React, { useState, useEffect, useContext } from "react";
+import {
+  Container,
+  Grid,
+  Tooltip,
+  Paper,
+  Typography,
+  Box,
+  TextField,
+  Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Button,
+  DialogActions,
+  DialogContentText,
+  InputAdornment,
+  CssBaseline,
+  CircularProgress,
+} from "@material-ui/core";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import SearchIcon from "@material-ui/icons/Search";
 import { grey } from "@material-ui/core/colors";
@@ -7,7 +25,13 @@ import { makeStyles } from "@material-ui/styles";
 import DateMomentUtils from "@date-io/moment";
 import { orange } from "@material-ui/core/colors";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
+import axios from "axios";
 import IndividualMonthCard from "../components/MonthlyExpense/IndividualMonthCard";
+import EmptyState from "../components/Common/EmptyState";
+import LoadingState from "../components/Common/LoadingState";
+import Notification from "../components/Common/Notification";
+import { bearerToken } from "../utils/constant";
+import { UserContext } from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,29 +71,67 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MonthlyExpenseList() {
   const classes = useStyles();
+  const { loading, setLoading } = useContext(UserContext);
   const [open, setOpen] = React.useState(false);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [monthName, setMonthName] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`/months/${localStorage.getItem("userId")}`, bearerToken)
+      .then((res) => {
+        console.log(res);
+        setMonthName(res.data.data);
+      })
+      .catch((err) => {
+        if (err.response.data.message) {
+          Notification("Error", `${err.response.data.message}`, "error");
+        } else {
+          Notification("Error", "Something went wrong. Please check your internet connection", "error");
+        }
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const handleMonthChange = (date) => {
     setSelectedMonth(date);
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const dialogClose = () => {
+    setOpen(false);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const createMonth = (e) => {
+    e.preventDefault();
+    const month = selectedMonth.toLocaleString("default", { month: "long" });
+    const year = selectedMonth.getFullYear();
+    setLoading(true);
+
+    axios
+      .post("/months", { name: `${month} ${year}`, user: localStorage.getItem("userId") }, bearerToken)
+      .then(() => {
+        Notification("Success", "Month created successfully", "success");
+      })
+      .catch((err) => {
+        if (err.response.data.message) {
+          Notification("Error", `${err.response.data.message}`, "error");
+        } else {
+          Notification("Error", "Something went wrong. Please check your internet connection", "error");
+        }
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
     <div className={classes.root}>
       <Container component="main" maxWidth="lg">
+        <CssBaseline />
         {/* ADD MONTH BUTTON */}
         <Grid container>
           <Tooltip title="Create New Month">
             <Grid item xs={12} sm={6} md={4} lg={2}>
-              <Paper elevation={0} className={classes.paper} onClick={handleClickOpen}>
+              <Paper elevation={0} className={classes.paper} onClick={() => setOpen(true)}>
                 <AddRoundedIcon className={classes.icon} />
               </Paper>
             </Grid>
@@ -104,44 +166,58 @@ export default function MonthlyExpenseList() {
         </Grid>
         <Divider component="hr"></Divider>
         <Grid container spacing={4} className={classes.mt}>
-          <Grid item xs={12} sm={6} md={4} lg={3}>
-            <IndividualMonthCard />
-          </Grid>
+          {loading ? (
+            <Grid item xs={12}>
+              <LoadingState />
+            </Grid>
+          ) : monthName.length > 0 ? (
+            monthName.map((month) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={month._id}>
+                <IndividualMonthCard info={month} />
+              </Grid>
+            ))
+          ) : (
+            <Grid item xs={12}>
+              <EmptyState msg="Month not found. Please create one" />
+            </Grid>
+          )}
         </Grid>
 
         {/* DIALOG FOR MONTH PICKER */}
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <Dialog open={open} onClose={dialogClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Create Month</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Here you can create month for monthly expense tracking. </DialogContentText>
-            <MuiPickersUtilsProvider utils={DateMomentUtils}>
-              <KeyboardDatePicker
-                disableFuture
-                disableToolbar
-                autoOk
-                fullWidth
-                variant="inline"
-                inputVariant="outlined"
-                margin="normal"
-                views={["year", "month"]}
-                id="date-picker-inline"
-                label="Pick Your Desired Month"
-                value={selectedMonth}
-                onChange={handleMonthChange}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
-            </MuiPickersUtilsProvider>
-          </DialogContent>
-          <DialogActions>
-            <Button size="small" onClick={handleClose} color="secondary">
-              Cancel
-            </Button>
-            <Button size="small" variant="contained" disableElevation onClick={handleClose} color="primary">
-              Create
-            </Button>
-          </DialogActions>
+          <form onSubmit={createMonth}>
+            <DialogContent>
+              <DialogContentText>Here you can create month for monthly expense tracking. </DialogContentText>
+              <MuiPickersUtilsProvider utils={DateMomentUtils}>
+                <KeyboardDatePicker
+                  disableFuture
+                  disableToolbar
+                  autoOk
+                  fullWidth
+                  variant="inline"
+                  inputVariant="outlined"
+                  margin="normal"
+                  views={["year", "month"]}
+                  id="date-picker-inline"
+                  label="Pick Your Desired Month"
+                  value={selectedMonth}
+                  onChange={handleMonthChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            </DialogContent>
+            <DialogActions>
+              <Button size="small" onClick={dialogClose} color="secondary">
+                Cancel
+              </Button>
+              <Button size="small" variant="contained" disableElevation type="submit" color="primary">
+                {loading ? <CircularProgress size={24} color="primary" /> : "Create"}
+              </Button>
+            </DialogActions>
+          </form>
         </Dialog>
       </Container>
     </div>

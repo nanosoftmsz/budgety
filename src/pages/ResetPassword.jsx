@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, CssBaseline, TextField, Typography, Box, Container, Card, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Copyright from "../components/Copyright";
+import Copyright from "../components/Common/Copyright";
 
 const useStyles = makeStyles((theme) => ({
   card: {

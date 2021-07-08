@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react";
-import { Button, CssBaseline, TextField, Typography, Box, Container, Divider, Card, CardContent, Grid, CircularProgress } from "@material-ui/core";
+import { Button, CssBaseline, TextField, Typography, Box, Container, Divider, Card, CardContent, Grid, CircularProgress, InputAdornment, IconButton } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import googleicon from "../assets/img/google.svg";
-import Copyright from "../components/Copyright";
-import Notification from "../components/Notification";
+import Copyright from "../components/Common/Copyright";
+import Notification from "../components/Common/Notification";
 import { GoogleLogin } from "react-google-login";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
@@ -45,9 +47,13 @@ export default function Login() {
   const history = useHistory();
   const { loading, setLoading, setUserInfo } = useContext(UserContext);
 
-  const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
+  const [loginInfo, setLoginInfo] = useState({ email: "", password: "", showPassword: false });
 
   const handleChange = (e) => setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });
+
+  const handleClickShowPassword = () => {
+    setLoginInfo({ ...loginInfo, showPassword: !loginInfo.showPassword });
+  };
 
   const responseGoogle = (res) => {
     console.log(res);
@@ -95,7 +101,6 @@ export default function Login() {
       .finally(() => {
         console.log("finally here");
         setLoading(false);
-        setLoginInfo({ email: "", password: "" });
       });
   };
 
@@ -135,7 +140,27 @@ export default function Login() {
               </Box>
 
               <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" value={loginInfo.email} type="email" autoFocus onChange={handleChange} />
-              <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" value={loginInfo.password} onChange={handleChange} />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type={loginInfo.showPassword ? "text" : "password"}
+                id="password"
+                value={loginInfo.password}
+                onChange={handleChange}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword}>
+                        {loginInfo.showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
               <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit} disabled={loading}>
                 {loading ? <CircularProgress size={24} color="primary" /> : "Sign In"}
               </Button>

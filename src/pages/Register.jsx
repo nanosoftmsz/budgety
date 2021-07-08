@@ -4,10 +4,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link, useHistory } from "react-router-dom";
 import googleicon from "../assets/img/google.svg";
 import { GoogleLogin } from "react-google-login";
-import Copyright from "../components/Copyright";
-import Notification from "../components/Notification";
+import Copyright from "../components/Common/Copyright";
+import Notification from "../components/Common/Notification";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
+import PasswordStrengthMeter from "../components/Common/PasswordStrengthMeter";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
   const history = useHistory();
-  const { loading, setLoading, setUserInfo, userInfo } = useContext(UserContext);
+  const { loading, setLoading, setUserInfo } = useContext(UserContext);
 
   // STATES
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
@@ -77,8 +78,6 @@ export default function Register() {
   };
 
   const handlePasswordValidation = () => {
-    console.log(createUser.password);
-    console.log(createUser.confirmPassword);
     if (createUser.password !== createUser.confirmPassword) {
       Notification("Warning", "Password didn't match", "warning");
     } else {
@@ -166,6 +165,9 @@ export default function Register() {
                 type={showPasswordCheck ? "text" : "password"}
                 onChange={handleChange}
               />
+
+              {createUser.password && <PasswordStrengthMeter password={createUser.password} />}
+
               <Grid container alignItems="center">
                 <Grid item xs={12} sm={6}>
                   <FormControlLabel control={<Checkbox value="remember" color="primary" onChange={(e) => setShowPasswordCheck(e.target.checked)} />} label="Show Password" />

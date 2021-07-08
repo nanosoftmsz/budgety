@@ -6,7 +6,7 @@ import ReceiptRoundedIcon from "@material-ui/icons/ReceiptRounded";
 import QueueRoundedIcon from "@material-ui/icons/QueueRounded";
 import GroupBarChart from "../components/Dashboard/GroupBarChart";
 import LineChart from "../components/Dashboard/LineChart";
-import Copyright from "../components/Copyright";
+import Copyright from "../components/Common/Copyright";
 import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({

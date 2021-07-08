@@ -1,7 +1,6 @@
-import { useContext } from "react";
 import { Switch, Route } from "react-router-dom";
 import Login from "../pages/Login";
-import TheNavbar from "../components/TheNavbar";
+import TheNavbar from "../components/Common/TheNavbar";
 import Register from "../pages/Register";
 import Home from "../pages/Home";
 import MonthlyExpenseList from "../pages/MonthlyExpenseList";
@@ -16,7 +15,6 @@ import { UserContext } from "../context/UserContext";
 import PageNotFound from "../pages/PageNotFound";
 
 export default function MainApp() {
-  const { userInfo } = useContext(UserContext);
   return (
     <div>
       <TheNavbar />

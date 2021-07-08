@@ -20,7 +20,7 @@ import {
   TextField,
   DialogActions,
 } from "@material-ui/core";
-import TabPanel from "../components/TabPanel";
+import TabPanel from "../components/Common/TabPanel";
 import AttachMoneyRoundedIcon from "@material-ui/icons/AttachMoneyRounded";
 import PostAddRoundedIcon from "@material-ui/icons/PostAddRounded";
 import ExpenseHistoryTable from "../components/MonthlyExpense/ExpenseHistoryTable";
