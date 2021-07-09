@@ -11,7 +11,6 @@ import Dashboard from "../pages/Dashboard";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
 import ProtectedRoute from "./ProtectedRoute";
-import { UserContext } from "../context/UserContext";
 import PageNotFound from "../pages/PageNotFound";
 
 export default function MainApp() {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Grid, Card, CardContent, Typography, Box, CssBaseline, Button } from "@material-ui/core";
+import { Container, Grid, Card, CardContent, Typography, Box, CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateMomentUtils from "@date-io/moment";
@@ -47,6 +47,7 @@ export default function Dashboard() {
   const [selectedYear, setSelectedYear] = useState(new Date());
   const [currentYear, setCurrentYear] = useState("");
   const [dashboardCharts, setDashboardCharts] = useState();
+  const [dashboardCards, setDashboardCards] = useState();
 
   useEffect(() => {
     let year = moment().format("LL");
@@ -58,6 +59,18 @@ export default function Dashboard() {
       .then((res) => {
         console.log(res);
         setDashboardCharts(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`/dashboard/summary/${localStorage.getItem("userId")}`, bearerToken)
+      .then((res) => {
+        console.log(res);
+        setDashboardCards(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -91,7 +104,7 @@ export default function Dashboard() {
               <CardContent>
                 <Grid container justify="space-between" alignItems="center">
                   <Grid item>
-                    <Typography variant="h4">42343</Typography>
+                    <Typography variant="h4"> {dashboardCards.TotalSaved.toLocaleString()}</Typography>
                     <Typography variant="subtitle1">Total Saved</Typography>
                   </Grid>
                   <Grid item>
@@ -106,7 +119,7 @@ export default function Dashboard() {
               <CardContent>
                 <Grid container justify="space-between" alignItems="center">
                   <Grid item>
-                    <Typography variant="h4">42343</Typography>
+                    <Typography variant="h4">{dashboardCards.TotalOwned.toLocaleString()}</Typography>
                     <Typography variant="subtitle1">Total Owned</Typography>
                   </Grid>
                   <Grid item>
@@ -121,7 +134,7 @@ export default function Dashboard() {
               <CardContent>
                 <Grid container justify="space-between" alignItems="center">
                   <Grid item>
-                    <Typography variant="h4">42343</Typography>
+                    <Typography variant="h4">{dashboardCards.TotalDebt.toLocaleString()}</Typography>
                     <Typography variant="subtitle1">Total Debt</Typography>
                   </Grid>
                   <Grid item>

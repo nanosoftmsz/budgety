@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import InboxRoundedIcon from "@material-ui/icons/InboxRounded";
 
 export default function EmptyState({ msg }) {
