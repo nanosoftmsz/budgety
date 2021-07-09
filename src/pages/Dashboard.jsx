@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Container, Grid, Card, CardContent, Typography, Box, CssBaseline } from "@material-ui/core";
+import { Container, Grid, Card, CardContent, Typography, Box, CssBaseline, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 import DateMomentUtils from "@date-io/moment";
+import { Link } from "react-router-dom";
 import MonetizationOnRoundedIcon from "@material-ui/icons/MonetizationOnRounded";
 import ReceiptRoundedIcon from "@material-ui/icons/ReceiptRounded";
 import QueueRoundedIcon from "@material-ui/icons/QueueRounded";
@@ -57,15 +58,7 @@ export default function Dashboard() {
     setCurrentYear(year[2]);
 
     axios
-      .post(
-        "/dashboard/chart",
-        { user: localStorage.getItem("userId"), year: year[2] },
-        {
-          headers: {
-            Authorization: "Bearer " + userInfo.userToken || localStorage.getItem("userToken"),
-          },
-        }
-      )
+      .post("/dashboard/chart", { user: localStorage.getItem("userId"), year: year[2] }, bearerToken)
       .then((res) => {
         console.log(res);
         setDashboardCharts(res.data.data);
@@ -127,34 +120,42 @@ export default function Dashboard() {
             </Card>
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
-            <Card>
-              <CardContent>
-                <Grid container justify="space-between" alignItems="center">
-                  <Grid item>
-                    <Typography variant="h4">{dashboardCards.TotalOwned?.toLocaleString()}</Typography>
-                    <Typography variant="subtitle1">Total Owned</Typography>
-                  </Grid>
-                  <Grid item>
-                    <QueueRoundedIcon className={clsx(classes.icon, classes.owned)} />
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
+            <Link to="/dashboard/owned-list">
+              <Tooltip title="View List">
+                <Card>
+                  <CardContent>
+                    <Grid container justify="space-between" alignItems="center">
+                      <Grid item>
+                        <Typography variant="h4">{dashboardCards.TotalOwned?.toLocaleString()}</Typography>
+                        <Typography variant="subtitle1">Total Owned</Typography>
+                      </Grid>
+                      <Grid item>
+                        <QueueRoundedIcon className={clsx(classes.icon, classes.owned)} />
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </Tooltip>
+            </Link>
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
-            <Card>
-              <CardContent>
-                <Grid container justify="space-between" alignItems="center">
-                  <Grid item>
-                    <Typography variant="h4">{dashboardCards.TotalDebt?.toLocaleString()}</Typography>
-                    <Typography variant="subtitle1">Total Debt</Typography>
-                  </Grid>
-                  <Grid item>
-                    <ReceiptRoundedIcon className={clsx(classes.icon, classes.debt)} />
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
+            <Link to="/dashboard/debt-list">
+              <Tooltip title="View List">
+                <Card>
+                  <CardContent>
+                    <Grid container justify="space-between" alignItems="center">
+                      <Grid item>
+                        <Typography variant="h4">{dashboardCards.TotalDebt?.toLocaleString()}</Typography>
+                        <Typography variant="subtitle1">Total Debt</Typography>
+                      </Grid>
+                      <Grid item>
+                        <ReceiptRoundedIcon className={clsx(classes.icon, classes.debt)} />
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </Tooltip>
+            </Link>
           </Grid>
         </Grid>
 

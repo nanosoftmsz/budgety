@@ -97,7 +97,7 @@ export default function DetailsOwnedAndDebt() {
       .finally(() => {
         setTransactionModal(false);
         setLoading(false);
-        setTransactionInfo({ amount: 0, type: "Owned" });
+        setTransactionInfo({ amount: 0, description: "", type: "Owned" });
       });
   };
 

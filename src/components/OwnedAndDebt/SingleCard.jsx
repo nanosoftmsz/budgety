@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 import KeyboardArrowRightRoundedIcon from "@material-ui/icons/KeyboardArrowRightRounded";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    marginBottom: theme.spacing(2),
+  },
   card: {
     paddingBottom: "16px !important",
   },
@@ -23,7 +26,7 @@ export default function SingleCard({ info }) {
 
   return (
     <div>
-      <Card>
+      <Card className={classes.root}>
         <CardContent className={classes.card}>
           <Grid container alignItems="center" justify="center">
             <Grid item xs={12} sm={6} md={5}>

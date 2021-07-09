@@ -12,6 +12,8 @@ import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
 import ProtectedRoute from "./ProtectedRoute";
 import PageNotFound from "../pages/PageNotFound";
+import OwnedList from "../pages/OwnedList";
+import DebtList from "../pages/DebtList";
 
 export default function MainApp() {
   return (
@@ -24,6 +26,8 @@ export default function MainApp() {
         <Route exact path="/forgot-password" component={ForgotPassword} />
         <Route exact path="/reset-password/:token" component={ResetPassword} />
         <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+        <ProtectedRoute exact path="/dashboard/owned-list" component={OwnedList} />
+        <ProtectedRoute exact path="/dashboard/debt-list" component={DebtList} />
         <ProtectedRoute exact path="/monthly-expenditure" component={MonthlyExpenseList} />
         <ProtectedRoute exact path="/monthly-expenditure/:id" component={IndividualMonthExpense} />
         <ProtectedRoute exact path="/owned-and-debt" component={OwnedAndDebt} />

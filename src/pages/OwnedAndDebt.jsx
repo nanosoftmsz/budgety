@@ -137,7 +137,7 @@ export default function OwnedAndDebt() {
         </Grid>
 
         {/* IF LOADING THEN SHOW LOADING STATE. IF ARRAY RETURNS 0 THEN SHOW EMPTY STATE. IF ARRAY RETURNS ANY DATA THEN SHOW CARD */}
-        <Grid container spacing={2} direction="column" justify="center" className={classes.mt}>
+        <Grid container spacing={3} justify="center" className={classes.mt}>
           <Grid item xs={12}>
             {loading ? (
               <LoadingState />
