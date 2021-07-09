@@ -22,7 +22,7 @@ export default function MainApp() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/forgot-password" component={ForgotPassword} />
-        <Route exact path="/reset-password" component={ResetPassword} />
+        <Route exact path="/reset-password/:token" component={ResetPassword} />
         <ProtectedRoute exact path="/dashboard" component={Dashboard} />
         <ProtectedRoute exact path="/monthly-expenditure" component={MonthlyExpenseList} />
         <ProtectedRoute exact path="/monthly-expenditure/:id" component={IndividualMonthExpense} />

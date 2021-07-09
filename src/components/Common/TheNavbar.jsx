@@ -35,6 +35,7 @@ export default function TheNavbar() {
   };
 
   const logout = () => {
+    console.log(localStorage.getItem("userToken"));
     axios
       .post("/logout", { token: localStorage.getItem("userToken") })
       .then((res) => {
