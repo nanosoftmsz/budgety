@@ -3,7 +3,6 @@ import { Card, CardContent, Grid, Typography } from "@material-ui/core";
 import ArrowRightAltRoundedIcon from "@material-ui/icons/ArrowRightAltRounded";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   mt: {

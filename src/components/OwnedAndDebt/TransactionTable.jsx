@@ -15,6 +15,7 @@ export default function BasicTable({ dateWiseInfo }) {
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
+        <caption>Number of row count {dateWiseInfo?.length} </caption>
         <TableHead>
           <TableRow>
             <TableCell>Transaction Date</TableCell>

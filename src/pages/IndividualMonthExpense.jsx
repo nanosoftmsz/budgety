@@ -227,6 +227,7 @@ export default function IndividualMonthExpense() {
         </Tabs>
 
         <TabPanel value={value} index={0}>
+          {/* addHistory is to pass data from parent to child. fetchData is a trigger to call function from child to parent */}
           <AddMoneyHistoryTable addHistory={data.Income} fetchData={getIndividualMonthData} />
         </TabPanel>
         <TabPanel value={value} index={1}>
