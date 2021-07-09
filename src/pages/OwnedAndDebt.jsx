@@ -1,9 +1,30 @@
-import React, { useState } from "react";
-import { Container, Grid, Typography, CssBaseline, Box, TextField, InputAdornment, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core";
+import React, { useState, useEffect, useContext } from "react";
+import {
+  Container,
+  Grid,
+  Typography,
+  CssBaseline,
+  Box,
+  TextField,
+  InputAdornment,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  CircularProgress,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import SingleCard from "../components/OwnedAndDebt/SingleCard";
+import Notification from "../components/Common/Notification";
+import EmptyState from "../components/Common/EmptyState";
+import { UserContext } from "../context/UserContext";
+import { bearerToken } from "../utils/constant";
+import axios from "axios";
+import LoadingState from "../components/Common/LoadingState";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,10 +49,58 @@ const useStyles = makeStyles((theme) => ({
 
 export default function OwnedAndDebt() {
   const classes = useStyles();
+  const { loading, setLoading } = useContext(UserContext);
+
+  // STATES
   const [addPersonModal, setAddPersonModal] = useState(false);
   const [personInfo, setPersonInfo] = useState({ name: "", phone_number: "" });
+  const [personData, setPersonData] = useState([]);
 
+  // FUNCTIONS
   const handleChange = (e) => setPersonInfo({ ...personInfo, [e.target.name]: e.target.value });
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`persons/${localStorage.getItem("userId")}`, bearerToken)
+      .then((res) => {
+        console.log(res);
+        setPersonData(res.data.data);
+      })
+      .catch((err) => {
+        if (err.response.data.message) {
+          Notification("Error", `${err.response.data.message}`, "error");
+        } else {
+          Notification("Error", "Something went wrong. Please check your internet connection", "error");
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  const createPerson = (e) => {
+    e.preventDefault();
+    setAddPersonModal(false);
+    setLoading(true);
+    axios
+      .post("/persons", { name: personInfo.name, phone: personInfo.phone_number, user: localStorage.getItem("userId") }, bearerToken)
+      .then((res) => {
+        console.log(res);
+        Notification("Success", "Person info created successfully", "success");
+      })
+      .catch((err) => {
+        if (err.response.data.message) {
+          Notification("Error", `${err.response.data.message}`, "error");
+        } else {
+          Notification("Error", "Something went wrong. Please check your internet connection", "error");
+        }
+      })
+      .finally(() => {
+        setPersonInfo({ name: "", phone_number: "" });
+        setLoading(false);
+      });
+  };
 
   return (
     <div>
@@ -62,27 +131,35 @@ export default function OwnedAndDebt() {
         </Grid>
         <Grid container spacing={2} direction="column" justify="center" className={classes.mt}>
           <Grid item xs={12}>
-            <SingleCard />
+            {loading ? (
+              <LoadingState />
+            ) : personData.length !== 0 ? (
+              personData.map((data) => <SingleCard key={data._id} info={data} />)
+            ) : (
+              <EmptyState msg="You have no transaction with anyone. Please create a person to get started." />
+            )}
           </Grid>
         </Grid>
 
         {/* ADD PERSON MODAL */}
         <Dialog open={addPersonModal} onClose={() => setAddPersonModal(false)} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Add Person</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Here you can add person with whom you have done any kind of transactions either owned or debts.</DialogContentText>
-            <TextField autoFocus variant="outlined" margin="normal" label="Person Name" name="name" required fullWidth onChange={handleChange} />
-            <TextField variant="outlined" margin="normal" label="Phone Number" name="phone_number" required fullWidth onChange={handleChange} />
-            <small>* indicates required field</small>
-          </DialogContent>
-          <DialogActions>
-            <Button size="small" onClick={() => setAddPersonModal(false)} color="secondary">
-              Cancel
-            </Button>
-            <Button variant="contained" size="small" disableElevation onClick={() => setAddPersonModal(false)} color="primary">
-              Create Person
-            </Button>
-          </DialogActions>
+          <form onSubmit={createPerson}>
+            <DialogContent>
+              <DialogContentText>Here you can add person with whom you have done any kind of transactions either owned or debts.</DialogContentText>
+              <TextField autoFocus variant="outlined" margin="normal" label="Person Name" name="name" value={personInfo.name} required fullWidth onChange={handleChange} />
+              <TextField variant="outlined" margin="normal" label="Phone Number" name="phone_number" value={personInfo.phone_number} required fullWidth onChange={handleChange} />
+              <small>* indicates required field</small>
+            </DialogContent>
+            <DialogActions>
+              <Button size="small" onClick={() => setAddPersonModal(false)} color="secondary">
+                Cancel
+              </Button>
+              <Button type="submit" variant="contained" size="small" disableElevation onClick={() => setAddPersonModal(false)} color="primary" disabled={loading}>
+                {loading ? <CircularProgress size={24} color="primary" /> : "Create Person"}
+              </Button>
+            </DialogActions>
+          </form>
         </Dialog>
       </Container>
     </div>

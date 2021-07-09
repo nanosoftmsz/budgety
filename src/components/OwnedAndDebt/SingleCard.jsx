@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SingleCard() {
+export default function SingleCard({ info }) {
   const classes = useStyles();
 
   return (
@@ -27,27 +27,27 @@ export default function SingleCard() {
         <CardContent className={classes.card}>
           <Grid container alignItems="center" justify="center">
             <Grid item xs={12} sm={6} md={5}>
-              <Typography variant="subtitle1">Zubayer Himel</Typography>
+              <Typography variant="subtitle1">{info.name}</Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <Typography variant="subtitle1">01955377998</Typography>
+              <Typography variant="subtitle1">{info.phone}</Typography>
             </Grid>
             <Grid item xs={12} sm={12} md={3}>
               <Box display="flex" justifyContent="space-around" alignItems="center">
                 <Tooltip title="Owned">
                   <Button size="large" endIcon={<ArrowDropUpRoundedIcon fontSize="large" className={classes.arrowUp} />}>
-                    3299
+                    {info.owned}
                   </Button>
                 </Tooltip>
                 <Tooltip title="Debt">
                   <Button size="large" endIcon={<ArrowDropDownRoundedIcon fontSize="large" className={classes.arrowDown} />}>
-                    2344
+                    {info.debt}
                   </Button>
                 </Tooltip>
               </Box>
             </Grid>
             <Grid item xs={12} sm={12} md={1}>
-              <Link to="owned-and-debt/5">
+              <Link to={`owned-and-debt/${info._id}`}>
                 <Tooltip title="View details">
                   <Box display="flex" justifyContent="flex-end" alignItems="center">
                     <IconButton aria-label="right">
