@@ -41,7 +41,7 @@ export default function ForgotPassword() {
           <Grid item xs={12}>
             <Alert severity="success" onClose={() => setShowAlert(false)}>
               <AlertTitle>Success</AlertTitle>
-              Please check your email. We've sent you an email with reset link.
+              Please check your email. We've sent you an email with reset link. Your link will expire after <strong>5 min</strong>
             </Alert>
           </Grid>
         </Grid>

@@ -13,7 +13,7 @@ export default function PageNotFound() {
           <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" mt={3}>
             <Typography variant="h5">Sorry. Your requested page is not found!</Typography>
             <Link to="/">
-              <Button variant="contained" color="primary" style={{ marginTop: "2rem" }}>
+              <Button disableElevation variant="contained" color="primary" style={{ marginTop: "2rem" }}>
                 Take me to home
               </Button>
             </Link>

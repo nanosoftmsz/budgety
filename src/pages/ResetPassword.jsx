@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button, CssBaseline, TextField, Typography, Box, Container, Card, CardContent } from "@material-ui/core";
+import { Button, CssBaseline, TextField, Typography, Box, Container, Card, CardContent, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import SentimentVeryDissatisfiedRoundedIcon from "@material-ui/icons/SentimentVeryDissatisfiedRounded";
+import { Link } from "react-router-dom";
+import AutorenewRoundedIcon from "@material-ui/icons/AutorenewRounded";
 import Copyright from "../components/Common/Copyright";
+import invalid from "../assets/img/invalid.svg";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -47,10 +49,10 @@ export default function ResetPassword() {
   return (
     <Container component="main" maxWidth="sm">
       <CssBaseline />
-      <Card className={classes.card}>
-        <CardContent>
-          <div className={classes.paper}>
-            {isVerified ? (
+      {isVerified ? (
+        <Card className={classes.card}>
+          <CardContent>
+            <div className={classes.paper}>
               <form className={classes.form} onSubmit={handleResetPassword}>
                 <Box display="flex" justifyContent="center">
                   <Typography variant="h6" color="primary" className={classes.mb}>
@@ -89,15 +91,22 @@ export default function ResetPassword() {
                   Reset Password
                 </Button>
               </form>
-            ) : (
-              <>
-                <SentimentVeryDissatisfiedRoundedIcon style={{ fontSize: "5rem", color: "#78909c" }} />
-                <Typography variant="h4">Snap! You link has expired.</Typography>
-              </>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <Grid container direction="column" alignItems="center" justify="center">
+          <img src={invalid} alt="page not found" style={{ height: "40vh", marginTop: "4rem" }} />
+          <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" mt={3}>
+            <Typography variant="h5">Snap! You link has expired.</Typography>
+            <Link to="/forgot-password">
+              <Button disableElevation variant="contained" color="primary" style={{ marginTop: "2rem" }} endIcon={<AutorenewRoundedIcon />}>
+                Resend email
+              </Button>
+            </Link>
+          </Box>
+        </Grid>
+      )}
       <Box mt={8}>
         <Copyright />
       </Box>
