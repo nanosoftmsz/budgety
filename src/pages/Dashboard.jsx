@@ -47,7 +47,7 @@ export default function Dashboard() {
   const [selectedYear, setSelectedYear] = useState(new Date());
   const [currentYear, setCurrentYear] = useState("");
   const [dashboardCharts, setDashboardCharts] = useState();
-  const [dashboardCards, setDashboardCards] = useState();
+  const [dashboardCards, setDashboardCards] = useState({});
 
   useEffect(() => {
     let year = moment().format("LL");
@@ -104,7 +104,7 @@ export default function Dashboard() {
               <CardContent>
                 <Grid container justify="space-between" alignItems="center">
                   <Grid item>
-                    <Typography variant="h4"> {dashboardCards.TotalSaved.toLocaleString()}</Typography>
+                    <Typography variant="h4"> {dashboardCards.TotalSaved?.toLocaleString()}</Typography>
                     <Typography variant="subtitle1">Total Saved</Typography>
                   </Grid>
                   <Grid item>
@@ -119,7 +119,7 @@ export default function Dashboard() {
               <CardContent>
                 <Grid container justify="space-between" alignItems="center">
                   <Grid item>
-                    <Typography variant="h4">{dashboardCards.TotalOwned.toLocaleString()}</Typography>
+                    <Typography variant="h4">{dashboardCards.TotalOwned?.toLocaleString()}</Typography>
                     <Typography variant="subtitle1">Total Owned</Typography>
                   </Grid>
                   <Grid item>
@@ -134,7 +134,7 @@ export default function Dashboard() {
               <CardContent>
                 <Grid container justify="space-between" alignItems="center">
                   <Grid item>
-                    <Typography variant="h4">{dashboardCards.TotalDebt.toLocaleString()}</Typography>
+                    <Typography variant="h4">{dashboardCards.TotalDebt?.toLocaleString()}</Typography>
                     <Typography variant="subtitle1">Total Debt</Typography>
                   </Grid>
                   <Grid item>
