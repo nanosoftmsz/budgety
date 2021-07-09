@@ -98,6 +98,8 @@ export default function Dashboard() {
     <div>
       <Container component="main" maxWidth="lg" className={classes.root}>
         <CssBaseline />
+
+        {/* DASHBOARD SUMMARY CARDS */}
         <Grid container spacing={4} alignItems="center" justify="center">
           <Grid item xs={12} sm={6} md={4}>
             <Card>
@@ -145,6 +147,8 @@ export default function Dashboard() {
             </Card>
           </Grid>
         </Grid>
+
+        {/* YEAR PICKER */}
         <Grid container spacing={2} justify="flex-end" alignItems="center" className={classes.section}>
           <Grid item>
             <MuiPickersUtilsProvider utils={DateMomentUtils}>
@@ -168,8 +172,11 @@ export default function Dashboard() {
             </MuiPickersUtilsProvider>
           </Grid>
         </Grid>
+
+        {/* BAR CHART FOR MONTHLY EARNED, EXPENSE AND SAVED, LINE CHART FOR MONTHLY EARNED AND SAVE */}
         <Grid container spacing={3} alignItems="center" justify="center">
           <Grid item xs={12}>
+            {/* BAR CHART */}
             <Card>
               <CardContent>
                 <Grid container justify="space-between">
@@ -184,6 +191,7 @@ export default function Dashboard() {
             </Card>
           </Grid>
           <Grid item xs={12} md={6}>
+            {/* EARNED RATION LINE CHART */}
             <Card>
               <CardContent>
                 <Grid container justify="space-between">
@@ -198,6 +206,7 @@ export default function Dashboard() {
             </Card>
           </Grid>
           <Grid item xs={12} md={6}>
+            {/* SAVE RATIO LINE CHART */}
             <Card>
               <CardContent>
                 <Grid container justify="space-between">

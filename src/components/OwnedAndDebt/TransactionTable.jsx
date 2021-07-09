@@ -20,6 +20,7 @@ export default function BasicTable({ dateWiseInfo }) {
           <TableRow>
             <TableCell>Transaction Date</TableCell>
             <TableCell align="right">Type</TableCell>
+            <TableCell align="right">Description</TableCell>
             <TableCell align="right">Given</TableCell>
             <TableCell align="right">Taken</TableCell>
             <TableCell align="right">Total Given</TableCell>
@@ -33,6 +34,7 @@ export default function BasicTable({ dateWiseInfo }) {
                 {moment(row.createAt).format("LLL")}
               </TableCell>
               <TableCell align="right">{row.type}</TableCell>
+              <TableCell align="right">{row.description}</TableCell>
               <TableCell align="right">{row.givenAmount}</TableCell>
               <TableCell align="right">{row.takenAmount}</TableCell>
               <TableCell align="right">{row.dateWiseTotalGiven}</TableCell>

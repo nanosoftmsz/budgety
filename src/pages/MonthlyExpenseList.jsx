@@ -171,6 +171,7 @@ export default function MonthlyExpenseList() {
         </Grid>
         <Divider component="hr"></Divider>
         <Grid container spacing={4} className={classes.mt}>
+          {/* IF LOADING THEN SHOW LOADING STATE. IF ARRAY RETURNS 0 THEN SHOW EMPTY STATE. IF ARRAY RETURNS ANY DATA THEN SHOW CARD */}
           {loading ? (
             <Grid item xs={12}>
               <LoadingState />

@@ -255,7 +255,7 @@ export default function IndividualMonthExpense() {
           </form>
         </Dialog>
 
-        {/* EXPENSE DIALOG */}
+        {/* EXPENSE MODAL */}
         <Dialog open={expenseModal} onClose={() => setExpenseModal(false)} aria-labelledby="form-dialog-title">
           <form onSubmit={handleExpenseSubmit}>
             <DialogTitle id="form-dialog-title">Add Expense Info</DialogTitle>

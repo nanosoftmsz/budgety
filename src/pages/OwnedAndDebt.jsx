@@ -116,6 +116,7 @@ export default function OwnedAndDebt() {
             List of Owned / Debt
           </Typography>
         </Box>
+        {/* BUTTON TO ADD NEW PERSON */}
         <Grid container spacing={2} justify="space-between">
           <Button variant="contained" color="primary" disableElevation endIcon={<AddCircleOutlineRoundedIcon />} onClick={() => setAddPersonModal(true)}>
             Add new person
@@ -134,6 +135,8 @@ export default function OwnedAndDebt() {
             }}
           />
         </Grid>
+
+        {/* IF LOADING THEN SHOW LOADING STATE. IF ARRAY RETURNS 0 THEN SHOW EMPTY STATE. IF ARRAY RETURNS ANY DATA THEN SHOW CARD */}
         <Grid container spacing={2} direction="column" justify="center" className={classes.mt}>
           <Grid item xs={12}>
             {loading ? (

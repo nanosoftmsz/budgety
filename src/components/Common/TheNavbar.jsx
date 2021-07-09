@@ -4,6 +4,7 @@ import { AppBar, Toolbar, Typography, Button, Hidden, IconButton, Drawer, List, 
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavLink, Link, useHistory } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,9 +35,19 @@ export default function TheNavbar() {
   };
 
   const logout = () => {
-    setUserInfo({ userToken: null });
-    localStorage.clear();
-    history.push("/");
+    axios
+      .post("/logout", { token: localStorage.getItem("userToken") })
+      .then((res) => {
+        console.log("logged out");
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setUserInfo({ userToken: null });
+        localStorage.clear();
+        history.push("/");
+      });
   };
 
   const list = () => (

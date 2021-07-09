@@ -44,7 +44,7 @@ export default function DetailsOwnedAndDebt() {
 
   // STATES
   const [transactionModal, setTransactionModal] = useState(false);
-  const [transactionInfo, setTransactionInfo] = useState({ amount: 0, type: "Owned" });
+  const [transactionInfo, setTransactionInfo] = useState({ amount: 0, description: "", type: "Owned" });
   const [finalValue, setFinalValue] = useState({ amount: 0, msg: "No transaction yet" });
   const [transactionDetails, setTransactionDetails] = useState([]);
 
@@ -82,7 +82,7 @@ export default function DetailsOwnedAndDebt() {
     e.preventDefault();
     setLoading(true);
     axios
-      .post("/owned-debts", { type: transactionInfo.type, amount: transactionInfo.amount * 1, user: localStorage.getItem("userId"), person: id }, bearerToken)
+      .post("/owned-debts", { type: transactionInfo.type, description: transactionInfo.description, amount: transactionInfo.amount * 1, user: localStorage.getItem("userId"), person: id }, bearerToken)
       .then(() => {
         Notification("Success", "Transaction info created successfully", "success");
         getDetailsTransactionInfo();
@@ -169,11 +169,12 @@ export default function DetailsOwnedAndDebt() {
             <DialogTitle id="form-dialog-title">Add Transaction</DialogTitle>
             <DialogContent>
               <DialogContentText>You can add either owned or debt type of transaction with the respective person.</DialogContentText>
-              <TextField autoFocus variant="outlined" margin="normal" label="Amount" type="number" name="amount" value={transactionInfo.amount} required fullWidth onChange={handleChange} />
               <RadioGroup name="type" value={transactionInfo.type} onChange={handleChange}>
                 <FormControlLabel value="Owned" control={<Radio color="primary" />} label="Money Given" />
                 <FormControlLabel value="Debt" control={<Radio color="primary" />} label="Money Taken" />
               </RadioGroup>
+              <TextField autoFocus variant="outlined" margin="normal" label="Amount" type="number" name="amount" value={transactionInfo.amount} required fullWidth onChange={handleChange} />
+              <TextField variant="outlined" margin="normal" label="Description" name="description" value={transactionInfo.description} required fullWidth onChange={handleChange} />
               <small>* indicates required field</small>
             </DialogContent>
             <DialogActions>
