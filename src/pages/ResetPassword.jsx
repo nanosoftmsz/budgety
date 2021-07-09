@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button, CssBaseline, TextField, Typography, Box, Container, Card, CardContent, Grid } from "@material-ui/core";
+import { Button, CssBaseline, TextField, Typography, Box, Container, Card, CardContent, Grid, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, useHistory } from "react-router-dom";
 import AutorenewRoundedIcon from "@material-ui/icons/AutorenewRounded";
@@ -135,8 +135,8 @@ export default function ResetPassword() {
                   value={resetPassword.confirm_password}
                   onChange={handleChange}
                 />
-                <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit}>
-                  Reset Password
+                <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit} disabled={loading}>
+                  {loading ? <CircularProgress size={24} color="primary" /> : "Reset Password"}
                 </Button>
               </form>
             </div>
