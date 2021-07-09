@@ -49,12 +49,11 @@ export default function ForgotPassword() {
         setShowAlert(true);
       })
       .catch((err) => {
-        console.log(err);
-        // if (err.response.data.message) {
-        //   Notification("Error", `${err.response.data.message}`, "error");
-        // } else {
-        //   Notification("Error", "Something went wrong. Please check your internet connection", "error");
-        // }
+        if (err.response.data.message) {
+          Notification("Error", `${err.response.data.message}`, "error");
+        } else {
+          Notification("Error", "Something went wrong. Please check your internet connection", "error");
+        }
       })
       .finally(() => {
         setLoading(false);

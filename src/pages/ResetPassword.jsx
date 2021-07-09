@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import AutorenewRoundedIcon from "@material-ui/icons/AutorenewRounded";
 import Copyright from "../components/Common/Copyright";
 import invalid from "../assets/img/invalid.svg";
+import Notification from "../components/Common/Notification";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -34,13 +36,33 @@ const useStyles = makeStyles((theme) => ({
 export default function ResetPassword() {
   const classes = useStyles();
   const [resetPassword, setResetPassword] = useState({ password: "", confirm_password: "" });
-  const [isVerified, setIsVerified] = useState(true);
+  const [isVerified, setIsVerified] = useState(false);
 
   // FUNCTIONS
   const handleChange = (e) => setResetPassword({ ...resetPassword, [e.target.name]: e.target.value });
 
   useEffect(() => {
-    console.log(window.location.href);
+    console.log("hahah");
+    const url = window.location.href;
+    const mail = url.split("&mail=")[1];
+    console.log(mail);
+    axios
+      .post("/auth/verify-forgot-url", { email: mail, verifyUrl: url })
+      .then((res) => {
+        console.log(res);
+        if (res.data.message === true) {
+          setIsVerified(true);
+        } else {
+          setIsVerified(false);
+        }
+      })
+      .catch((err) => {
+        if (err.response.data.message) {
+          Notification("Error", `${err.response.data.message}`, "error");
+        } else {
+          Notification("Error", "Something went wrong. Please check your internet connection", "error");
+        }
+      });
   }, []);
   const handleResetPassword = (e) => {
     e.preventDefault();
