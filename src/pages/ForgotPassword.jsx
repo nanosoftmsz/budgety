@@ -57,6 +57,9 @@ export default function ForgotPassword() {
       })
       .finally(() => {
         setLoading(false);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 200);
       });
   };
 

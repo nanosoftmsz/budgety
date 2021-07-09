@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, CssBaseline, TextField, Typography, Box, Container, Card, CardContent, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AutorenewRoundedIcon from "@material-ui/icons/AutorenewRounded";
 import Copyright from "../components/Common/Copyright";
 import invalid from "../assets/img/invalid.svg";
 import Notification from "../components/Common/Notification";
+import { UserContext } from "../context/UserContext";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,16 +36,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ResetPassword() {
   const classes = useStyles();
+  const { loading, setLoading } = useContext(UserContext);
+  const history = useHistory();
+
+  // STATES
   const [resetPassword, setResetPassword] = useState({ password: "", confirm_password: "" });
+  const [email, setEmail] = useState("");
   const [isVerified, setIsVerified] = useState(false);
 
   // FUNCTIONS
   const handleChange = (e) => setResetPassword({ ...resetPassword, [e.target.name]: e.target.value });
 
   useEffect(() => {
-    console.log("hahah");
     const url = window.location.href;
     const mail = url.split("&mail=")[1];
+    setEmail(mail);
     console.log(mail);
     axios
       .post("/auth/verify-forgot-url", { email: mail, verifyUrl: url })
@@ -64,8 +70,28 @@ export default function ResetPassword() {
         }
       });
   }, []);
+
   const handleResetPassword = (e) => {
     e.preventDefault();
+    setLoading(true);
+    if (resetPassword.password !== resetPassword.confirm_password) return Notification("Warning", "Password didn't match", "warning");
+    axios
+      .post("/auth/reset-password", { email: email, password: resetPassword.password })
+      .then((res) => {
+        console.log(res);
+        Notification("Success", "Your password has been reset successfully", "success");
+        history.push("/login");
+      })
+      .catch((err) => {
+        if (err.response.data.message) {
+          Notification("Error", `${err.response.data.message}`, "error");
+        } else {
+          Notification("Error", "Something went wrong. Please check your internet connection", "error");
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
