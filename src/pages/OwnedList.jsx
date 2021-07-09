@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, CssBaseline, Box, Typography } from "@material-ui/core";
 import { bearerToken } from "../utils/constant";
-import Notification from "../components/Common/Notification";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,11 +26,7 @@ export default function OwnedList() {
         setData(res.data.data);
       })
       .catch((err) => {
-        if (err.response.data.message) {
-          Notification("Error", `${err.response.data.message}`, "error");
-        } else {
-          Notification("Error", "Something went wrong. Please check your internet connection", "error");
-        }
+        console.log(err);
       });
   }, []);
 
@@ -54,7 +49,7 @@ export default function OwnedList() {
           <TableBody>
             {data?.map((row) => (
               <TableRow key={row.phone}>
-                <TableCell>{row.name}</TableCell>
+                <TableCell align="right">{row.name}</TableCell>
                 <TableCell align="right">{row.phone}</TableCell>
                 <TableCell align="right">{row.amount}</TableCell>
               </TableRow>

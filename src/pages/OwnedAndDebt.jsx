@@ -24,6 +24,7 @@ import EmptyState from "../components/Common/EmptyState";
 import { UserContext } from "../context/UserContext";
 import { bearerToken } from "../utils/constant";
 import axios from "axios";
+import FuzzySearch from "fuzzy-search";
 import LoadingState from "../components/Common/LoadingState";
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +55,9 @@ export default function OwnedAndDebt() {
   // STATES
   const [addPersonModal, setAddPersonModal] = useState(false);
   const [personInfo, setPersonInfo] = useState({ name: "", phone_number: "" });
+  const [searchInput, setSearchInput] = useState("");
   const [personData, setPersonData] = useState([]);
+  const [searchPerson, setSearchPerson] = useState([]);
 
   // FUNCTIONS
   const handleChange = (e) => setPersonInfo({ ...personInfo, [e.target.name]: e.target.value });
@@ -66,6 +69,7 @@ export default function OwnedAndDebt() {
       .then((res) => {
         console.log(res);
         setPersonData(res.data.data);
+        setSearchPerson(res.data.data);
       })
       .catch((err) => {
         if (err.response.data.message) {
@@ -107,6 +111,20 @@ export default function OwnedAndDebt() {
       });
   };
 
+  // SEARCH PERSON
+  const personSearcher = new FuzzySearch(searchPerson, ["name", "phone"], { sort: true });
+
+  const handleSearch = (e) => {
+    console.log(e.target.value);
+    setSearchInput(e.target.value);
+    if (e.target.value) {
+      const result = personSearcher.search(e.target.value);
+      setPersonData([...result]);
+    } else {
+      setPersonData(searchPerson);
+    }
+  };
+
   return (
     <div>
       <Container component="main" maxWidth="lg" className={classes.root}>
@@ -125,7 +143,10 @@ export default function OwnedAndDebt() {
             type="search"
             variant="outlined"
             size="small"
-            placeholder="Search by name"
+            name="searchInput"
+            value={searchInput}
+            onChange={(e) => handleSearch(e)}
+            placeholder="Search individuals"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -139,13 +160,7 @@ export default function OwnedAndDebt() {
         {/* IF LOADING THEN SHOW LOADING STATE. IF ARRAY RETURNS 0 THEN SHOW EMPTY STATE. IF ARRAY RETURNS ANY DATA THEN SHOW CARD */}
         <Grid container spacing={3} justify="center" className={classes.mt}>
           <Grid item xs={12}>
-            {loading ? (
-              <LoadingState />
-            ) : personData.length !== 0 ? (
-              personData.map((data) => <SingleCard key={data._id} info={data} />)
-            ) : (
-              <EmptyState msg="You have no transaction with anyone. Please create a person to get started." />
-            )}
+            {loading ? <LoadingState /> : personData.length !== 0 ? personData.map((data) => <SingleCard key={data._id} info={data} />) : <EmptyState msg="Person not found. Please create one" />}
           </Grid>
         </Grid>
 

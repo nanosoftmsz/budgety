@@ -90,7 +90,7 @@ export default function IndividualMonthExpense() {
         {
           source: addAmount.nameOfSource,
           amount: addAmount.amount * 1,
-          user: data.user,
+          user: data.User,
           month: data._id,
         },
         bearerToken
@@ -120,7 +120,7 @@ export default function IndividualMonthExpense() {
           purpose: expenseInfo.expensePurpose,
           description: expenseInfo.description || "N/A",
           amount: expenseInfo.amount * 1,
-          user: data.user,
+          user: data.User,
           month: data._id,
         },
         bearerToken

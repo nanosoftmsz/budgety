@@ -33,6 +33,7 @@ import Notification from "../components/Common/Notification";
 import { bearerToken } from "../utils/constant";
 import { UserContext } from "../context/UserContext";
 import moment from "moment";
+import FuzzySearch from "fuzzy-search";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,6 +77,8 @@ export default function MonthlyExpenseList() {
   const [open, setOpen] = React.useState(false);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [monthName, setMonthName] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchMonth, setSearchMonth] = useState([]);
 
   const getAllMonths = () => {
     setLoading(true);
@@ -84,6 +87,7 @@ export default function MonthlyExpenseList() {
       .then((res) => {
         console.log(res);
         setMonthName(res.data.data);
+        setSearchMonth(res.data.data);
       })
       .catch((err) => {
         if (err.response.data.message) {
@@ -128,6 +132,20 @@ export default function MonthlyExpenseList() {
       .finally(() => setLoading(false), setOpen(false));
   };
 
+  // SEARCH MONTHS
+  const monthSearcher = new FuzzySearch(searchMonth, ["name"], { sort: true });
+
+  const handleSearch = (e) => {
+    console.log(e.target.value);
+    setSearchInput(e.target.value);
+    if (e.target.value) {
+      const result = monthSearcher.search(e.target.value);
+      setMonthName([...result]);
+    } else {
+      setMonthName(searchMonth);
+    }
+  };
+
   return (
     <div className={classes.root}>
       <Container component="main" maxWidth="lg">
@@ -157,6 +175,9 @@ export default function MonthlyExpenseList() {
                 type="search"
                 variant="outlined"
                 placeholder="Search a month"
+                name="searchInput"
+                value={searchInput}
+                onChange={(e) => handleSearch(e)}
                 color="primary"
                 InputProps={{
                   startAdornment: (
