@@ -59,7 +59,7 @@ export default function OwnedAndDebt() {
   // FUNCTIONS
   const handleChange = (e) => setPersonInfo({ ...personInfo, [e.target.name]: e.target.value });
 
-  useEffect(() => {
+  const getAllPersonData = () => {
     setLoading(true);
     axios
       .get(`persons/${localStorage.getItem("userId")}`, bearerToken)
@@ -77,6 +77,10 @@ export default function OwnedAndDebt() {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    getAllPersonData();
   }, []);
 
   const createPerson = (e) => {
@@ -88,6 +92,7 @@ export default function OwnedAndDebt() {
       .then((res) => {
         console.log(res);
         Notification("Success", "Person info created successfully", "success");
+        getAllPersonData();
       })
       .catch((err) => {
         if (err.response.data.message) {

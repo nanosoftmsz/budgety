@@ -14,6 +14,8 @@ import {
   RadioGroup,
   CircularProgress,
   FormControlLabel,
+  Card,
+  CardContent,
   Radio,
 } from "@material-ui/core";
 import { useParams } from "react-router-dom";
@@ -43,6 +45,7 @@ export default function DetailsOwnedAndDebt() {
   // STATES
   const [transactionModal, setTransactionModal] = useState(false);
   const [transactionInfo, setTransactionInfo] = useState({ amount: 0, type: "Owned" });
+  const [finalValue, setFinalValue] = useState({ amount: 0, msg: "No transaction yet" });
   const [transactionDetails, setTransactionDetails] = useState([]);
 
   // FUNCTIONS
@@ -54,9 +57,16 @@ export default function DetailsOwnedAndDebt() {
       .then((res) => {
         console.log(res);
         setTransactionDetails(res.data.data);
+        if (res.data.data.owned > res.data.data.debt) {
+          setFinalValue({ amount: res.data.data.owned - res.data.data.debt, msg: `You'll get ${res.data.data.owned - res.data.data.debt}/- from ${res.data.data.name} ` });
+        } else if (res.data.data.debt > res.data.data.owned) {
+          setFinalValue({ amount: res.data.data.debt - res.data.data.owned, msg: `${res.data.data.name}'ll get ${res.data.data.debt - res.data.data.owned}/- from you ` });
+        } else if (res.data.data.debt === res.data.data.owned) {
+          setFinalValue({ amount: 0, msg: `No owned or debt` });
+        }
       })
       .catch((err) => {
-        if (err.response.data.message) {
+        if (err.response.data?.message) {
           Notification("Error", `${err.response.data.message}`, "error");
         } else {
           Notification("Error", "Something went wrong. Please check your internet connection", "error");
@@ -78,7 +88,7 @@ export default function DetailsOwnedAndDebt() {
         getDetailsTransactionInfo();
       })
       .catch((err) => {
-        if (err.response.data.message) {
+        if (err.response.data?.message) {
           Notification("Error", `${err.response.data.message}`, "error");
         } else {
           Notification("Error", "Something went wrong. Please check your internet connection", "error");
@@ -101,6 +111,45 @@ export default function DetailsOwnedAndDebt() {
           <Typography variant="h3"> {transactionDetails.name} </Typography>
           <br />
           <Typography variant="subtitle1"> {transactionDetails.phone} </Typography>
+        </Grid>
+
+        <Grid container spacing={3} className={classes.section} justify="center">
+          <Grid item xs={12} sm={4}>
+            <Card variant="outlined">
+              <CardContent>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  <Typography variant="h3"> {transactionDetails.owned?.toLocaleString()} </Typography>
+                  <Typography variant="h6" style={{ color: "#00b500" }}>
+                    Total Owned
+                  </Typography>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={4}>
+            <Card variant="outlined">
+              <CardContent>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  <Typography variant="h3"> {transactionDetails.debt?.toLocaleString()} </Typography>
+                  <Typography variant="h6" style={{ color: "#EA1111" }}>
+                    Total Debt
+                  </Typography>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={4}>
+            <Card variant="outlined">
+              <CardContent>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  <Typography variant="h3"> {finalValue.amount?.toLocaleString()} </Typography>
+                  <Typography variant="h6">{finalValue.msg}</Typography>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
 
         <Grid container justify="flex-start" className={classes.section}>
