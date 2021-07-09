@@ -37,19 +37,16 @@ export default function TheNavbar() {
   const logout = () => {
     console.log(localStorage.getItem("userToken"));
     axios
-      .post("/logout", { token: localStorage.getItem("userToken") })
+      .post("/auth/logout", { token: localStorage.getItem("userToken") })
       .then((res) => {
         console.log("logged out");
       })
       .catch((err) => {
         console.log(err);
-      })
-      .finally(() => {
-        setUserInfo({ userToken: null });
-        localStorage.clear();
-        history.push("/");
-        window.location.reload();
       });
+    setUserInfo({ userToken: null });
+    localStorage.clear();
+    history.push("/");
   };
 
   const list = () => (

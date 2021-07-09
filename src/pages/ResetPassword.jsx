@@ -73,8 +73,8 @@ export default function ResetPassword() {
 
   const handleResetPassword = (e) => {
     e.preventDefault();
-    setLoading(true);
     if (resetPassword.password !== resetPassword.confirm_password) return Notification("Warning", "Password didn't match", "warning");
+    setLoading(true);
     axios
       .post("/auth/reset-password", { email: email, password: resetPassword.password })
       .then((res) => {

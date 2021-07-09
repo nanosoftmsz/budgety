@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Container, Grid, Card, CardContent, Typography, Box, CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
@@ -13,6 +13,7 @@ import Copyright from "../components/Common/Copyright";
 import clsx from "clsx";
 import moment from "moment";
 import axios from "axios";
+import { UserContext } from "../context/UserContext";
 import { bearerToken } from "../utils/constant";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
+  const { userInfo } = useContext(UserContext);
 
   const [selectedYear, setSelectedYear] = useState(new Date());
   const [currentYear, setCurrentYear] = useState("");
@@ -55,7 +57,15 @@ export default function Dashboard() {
     setCurrentYear(year[2]);
 
     axios
-      .post("/dashboard/chart", { user: localStorage.getItem("userId"), year: year[2] }, bearerToken)
+      .post(
+        "/dashboard/chart",
+        { user: localStorage.getItem("userId"), year: year[2] },
+        {
+          headers: {
+            Authorization: "Bearer " + userInfo.userToken || localStorage.getItem("userToken"),
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
         setDashboardCharts(res.data.data);

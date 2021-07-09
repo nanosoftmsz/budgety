@@ -87,8 +87,8 @@ export default function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
     if (handlePasswordValidation()) {
+      setLoading(true);
       axios
         .post("/auth/signup", { email: createUser.email, password: createUser.password })
         .then((res) => {
