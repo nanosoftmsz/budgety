@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import { Button, CssBaseline, TextField, Typography, Box, Container, Card, CardContent, Grid } from "@material-ui/core";
+import React, { useState, useContext } from "react";
+import { Button, CssBaseline, TextField, Typography, Box, Container, Card, CardContent, Grid, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import Copyright from "../components/Common/Copyright";
+import Notification from "../components/Common/Notification";
+import { UserContext } from "../context/UserContext";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -31,7 +34,32 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ForgotPassword() {
   const classes = useStyles();
-  const [showAlert, setShowAlert] = useState(true);
+  const { loading, setLoading } = useContext(UserContext);
+  const [showAlert, setShowAlert] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    console.log(email);
+    axios
+      .post("/auth/forgot-password", { email: email })
+      .then((res) => {
+        console.log(res);
+        setShowAlert(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        // if (err.response.data.message) {
+        //   Notification("Error", `${err.response.data.message}`, "error");
+        // } else {
+        //   Notification("Error", "Something went wrong. Please check your internet connection", "error");
+        // }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <Container component="main" maxWidth="sm">
@@ -49,7 +77,7 @@ export default function ForgotPassword() {
       <Card className={classes.card}>
         <CardContent>
           <div className={classes.paper}>
-            <form className={classes.form}>
+            <form className={classes.form} onSubmit={sendEmail}>
               <Box display="flex" justifyContent="center">
                 <Typography variant="h6" color="primary" className={classes.mb}>
                   Forgot password?
@@ -60,9 +88,21 @@ export default function ForgotPassword() {
                 <Typography variant="subtitle1">Enter your email address below and we'll send you password reset OTP.</Typography>
               </Box>
 
-              <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email Address" name="email" type="email" autoFocus />
-              <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit}>
-                Send Mail
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                type="email"
+                autoFocus
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit} disabled={loading}>
+                {loading ? <CircularProgress size={24} color="primary" /> : "Send Mail"}
               </Button>
             </form>
           </div>

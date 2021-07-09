@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ResetPassword() {
   const classes = useStyles();
   const [resetPassword, setResetPassword] = useState({ password: "", confirm_password: "" });
-  const [isVerified, setIsVerified] = useState(false);
+  const [isVerified, setIsVerified] = useState(true);
 
   // FUNCTIONS
   const handleChange = (e) => setResetPassword({ ...resetPassword, [e.target.name]: e.target.value });
