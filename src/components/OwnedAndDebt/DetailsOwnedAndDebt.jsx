@@ -21,7 +21,6 @@ import {
 import { useParams } from "react-router-dom";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import { makeStyles } from "@material-ui/core/styles";
-import { bearerToken } from "../../utils/constant";
 import Notification from "../../components/Common/Notification";
 import EmptyState from "../Common/EmptyState";
 import TransactionTable from "./TransactionTable";
@@ -53,7 +52,11 @@ export default function DetailsOwnedAndDebt() {
 
   const getDetailsTransactionInfo = () => {
     axios
-      .get(`/persons/${localStorage.getItem("userId")}/${id}`, bearerToken)
+      .get(`/persons/${localStorage.getItem("userId")}/${id}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userToken"),
+        },
+      })
       .then((res) => {
         console.log(res);
         setTransactionDetails(res.data.data);
@@ -82,7 +85,15 @@ export default function DetailsOwnedAndDebt() {
     e.preventDefault();
     setLoading(true);
     axios
-      .post("/owned-debts", { type: transactionInfo.type, description: transactionInfo.description, amount: transactionInfo.amount * 1, user: localStorage.getItem("userId"), person: id }, bearerToken)
+      .post(
+        "/owned-debts",
+        { type: transactionInfo.type, description: transactionInfo.description, amount: transactionInfo.amount * 1, user: localStorage.getItem("userId"), person: id },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("userToken"),
+          },
+        }
+      )
       .then(() => {
         Notification("Success", "Transaction info created successfully", "success");
         getDetailsTransactionInfo();

@@ -30,7 +30,6 @@ import IndividualMonthCard from "../components/MonthlyExpense/IndividualMonthCar
 import EmptyState from "../components/Common/EmptyState";
 import LoadingState from "../components/Common/LoadingState";
 import Notification from "../components/Common/Notification";
-import { bearerToken } from "../utils/constant";
 import { UserContext } from "../context/UserContext";
 import moment from "moment";
 import FuzzySearch from "fuzzy-search";
@@ -83,7 +82,11 @@ export default function MonthlyExpenseList() {
   const getAllMonths = () => {
     setLoading(true);
     axios
-      .get(`/months/${localStorage.getItem("userId")}`, bearerToken)
+      .get(`/months/${localStorage.getItem("userId")}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userToken"),
+        },
+      })
       .then((res) => {
         console.log(res);
         setMonthName(res.data.data);
@@ -117,7 +120,15 @@ export default function MonthlyExpenseList() {
     setLoading(true);
 
     axios
-      .post("/months", { name: `${monthYear[0]} ${monthYear[2]}`, user: localStorage.getItem("userId") }, bearerToken)
+      .post(
+        "/months",
+        { name: `${monthYear[0]} ${monthYear[2]}`, user: localStorage.getItem("userId") },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("userToken"),
+          },
+        }
+      )
       .then(() => {
         Notification("Success", "Month created successfully", "success");
         getAllMonths();

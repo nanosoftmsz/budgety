@@ -23,7 +23,6 @@ import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import Notification from "../../components/Common/Notification";
 import { UserContext } from "../../context/UserContext";
-import { bearerToken } from "../../utils/constant";
 import moment from "moment";
 import axios from "axios";
 import ConfirmDialog from "../Common/ConfirmDialog";
@@ -56,7 +55,15 @@ export default function ExpenseHistoryTable({ expenseHistory, fetchData }) {
     e.preventDefault();
     setLoading(true);
     axios
-      .patch(`/expense-histories/${infoInModal.id}`, { purpose: infoInModal.expensePurpose, description: infoInModal.description, amount: infoInModal.amount * 1 }, bearerToken)
+      .patch(
+        `/expense-histories/${infoInModal.id}`,
+        { purpose: infoInModal.expensePurpose, description: infoInModal.description, amount: infoInModal.amount * 1 },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("userToken"),
+          },
+        }
+      )
       .then((res) => {
         Notification("Success", "Information updated successfully", "success");
         fetchData();
@@ -81,7 +88,11 @@ export default function ExpenseHistoryTable({ expenseHistory, fetchData }) {
     console.log("called");
     console.log(rowInfo);
     axios
-      .delete(`expense-histories/${rowInfo._id}`, bearerToken)
+      .delete(`expense-histories/${rowInfo._id}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userToken"),
+        },
+      })
       .then(() => {
         Notification("Success", "Your information has been deleted!", "success");
         fetchData();

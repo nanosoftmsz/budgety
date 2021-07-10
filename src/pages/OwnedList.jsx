@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, CssBaseline, Box, Typography } from "@material-ui/core";
-import { bearerToken } from "../utils/constant";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +19,11 @@ export default function OwnedList() {
 
   useEffect(() => {
     axios
-      .get(`/dashboard/owned/${localStorage.getItem("userId")}`, bearerToken)
+      .get(`/dashboard/owned/${localStorage.getItem("userId")}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userToken"),
+        },
+      })
       .then((res) => {
         console.log(res);
         setData(res.data.data);

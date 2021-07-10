@@ -15,7 +15,6 @@ import clsx from "clsx";
 import moment from "moment";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
-import { bearerToken } from "../utils/constant";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,13 +51,23 @@ export default function Dashboard() {
   const [dashboardCharts, setDashboardCharts] = useState();
   const [dashboardCards, setDashboardCards] = useState({});
 
+  // GET CHART DATA BY YEAR
   useEffect(() => {
     let year = moment().format("LL");
     year = year.split(" ");
     setCurrentYear(year[2]);
+    console.log(localStorage.getItem("userId"));
 
     axios
-      .post("/dashboard/chart", { user: localStorage.getItem("userId"), year: year[2] }, bearerToken)
+      .post(
+        "/dashboard/chart",
+        { user: localStorage.getItem("userId"), year: year[2] },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("userToken"),
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
         setDashboardCharts(res.data.data);
@@ -68,9 +77,14 @@ export default function Dashboard() {
       });
   }, []);
 
+  // GET SUMMARY DATA
   useEffect(() => {
     axios
-      .get(`/dashboard/summary/${localStorage.getItem("userId")}`, bearerToken)
+      .get(`/dashboard/summary/${localStorage.getItem("userId")}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userToken"),
+        },
+      })
       .then((res) => {
         console.log(res);
         setDashboardCards(res.data.data);
@@ -87,7 +101,15 @@ export default function Dashboard() {
     setCurrentYear(year[2]);
 
     axios
-      .post("/dashboard/chart", { user: localStorage.getItem("userId"), year: year[2] }, bearerToken)
+      .post(
+        "/dashboard/chart",
+        { user: localStorage.getItem("userId"), year: year[2] },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("userToken"),
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
         setDashboardCharts(res.data.data);

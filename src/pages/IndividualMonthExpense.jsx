@@ -26,7 +26,6 @@ import PostAddRoundedIcon from "@material-ui/icons/PostAddRounded";
 import ExpenseHistoryTable from "../components/MonthlyExpense/ExpenseHistoryTable";
 import AddMoneyHistoryTable from "../components/MonthlyExpense/AddMoneyHistoryTable";
 import Notification from "../components/Common/Notification";
-import { bearerToken } from "../utils/constant";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -63,7 +62,11 @@ export default function IndividualMonthExpense() {
 
   const getIndividualMonthData = () => {
     axios
-      .get(`months/${localStorage.getItem("userId")}/${id}`, bearerToken)
+      .get(`months/${localStorage.getItem("userId")}/${id}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userToken"),
+        },
+      })
       .then((res) => {
         console.log(res);
         setData(res.data.data);
@@ -93,7 +96,11 @@ export default function IndividualMonthExpense() {
           user: data.User,
           month: data._id,
         },
-        bearerToken
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("userToken"),
+          },
+        }
       )
       .then((res) => {
         console.log(res);
@@ -123,7 +130,11 @@ export default function IndividualMonthExpense() {
           user: data.User,
           month: data._id,
         },
-        bearerToken
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("userToken"),
+          },
+        }
       )
       .then((res) => {
         console.log(res);

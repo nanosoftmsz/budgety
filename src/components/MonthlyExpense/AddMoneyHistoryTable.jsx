@@ -23,7 +23,6 @@ import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import ConfirmDialog from "../../components/Common/ConfirmDialog";
 import Notification from "../../components/Common/Notification";
-import { bearerToken } from "../../utils/constant";
 import { UserContext } from "../../context/UserContext";
 import axios from "axios";
 import moment from "moment";
@@ -55,7 +54,15 @@ export default function AddMoneyHistoryTable({ addHistory, fetchData }) {
     e.preventDefault();
     setLoading(true);
     axios
-      .patch(`/income-histories/${infoInModal.id}`, { source: infoInModal.nameOfSource, amount: infoInModal.amount * 1 }, bearerToken)
+      .patch(
+        `/income-histories/${infoInModal.id}`,
+        { source: infoInModal.nameOfSource, amount: infoInModal.amount * 1 },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("userToken"),
+          },
+        }
+      )
       .then((res) => {
         Notification("Success", "Information updated successfully", "success");
         fetchData();
@@ -80,7 +87,11 @@ export default function AddMoneyHistoryTable({ addHistory, fetchData }) {
     console.log("called");
     console.log(rowInfo);
     axios
-      .delete(`income-histories/${rowInfo._id}`, bearerToken)
+      .delete(`income-histories/${rowInfo._id}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userToken"),
+        },
+      })
       .then(() => {
         Notification("Success", "Your information has been deleted!", "success");
         fetchData();

@@ -22,7 +22,7 @@ import SingleCard from "../components/OwnedAndDebt/SingleCard";
 import Notification from "../components/Common/Notification";
 import EmptyState from "../components/Common/EmptyState";
 import { UserContext } from "../context/UserContext";
-import { bearerToken, validatePhoneNumber } from "../utils/constant";
+import { validatePhoneNumber } from "../utils/constant";
 import axios from "axios";
 import FuzzySearch from "fuzzy-search";
 import LoadingState from "../components/Common/LoadingState";
@@ -65,7 +65,11 @@ export default function OwnedAndDebt() {
   const getAllPersonData = () => {
     setLoading(true);
     axios
-      .get(`persons/${localStorage.getItem("userId")}`, bearerToken)
+      .get(`persons/${localStorage.getItem("userId")}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userToken"),
+        },
+      })
       .then((res) => {
         console.log(res);
         setPersonData(res.data.data);
@@ -91,10 +95,18 @@ export default function OwnedAndDebt() {
     e.preventDefault();
     const valid_number = personInfo.phone_number.match(validatePhoneNumber);
     if (!valid_number) return Notification("Warning", "Invalid phone number", "warning");
-    setAddPersonModal(false);
+
     setLoading(true);
     axios
-      .post("/persons", { name: personInfo.name, phone: personInfo.phone_number, user: localStorage.getItem("userId") }, bearerToken)
+      .post(
+        "/persons",
+        { name: personInfo.name, phone: personInfo.phone_number, user: localStorage.getItem("userId") },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("userToken"),
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
         Notification("Success", "Person info created successfully", "success");
@@ -110,6 +122,7 @@ export default function OwnedAndDebt() {
       .finally(() => {
         setPersonInfo({ name: "", phone_number: "" });
         setLoading(false);
+        setAddPersonModal(false);
       });
   };
 
@@ -180,7 +193,7 @@ export default function OwnedAndDebt() {
               <Button size="small" onClick={() => setAddPersonModal(false)} color="secondary">
                 Cancel
               </Button>
-              <Button type="submit" variant="contained" size="small" disableElevation onClick={() => setAddPersonModal(false)} color="primary" disabled={loading}>
+              <Button type="submit" variant="contained" size="small" disableElevation color="primary" disabled={loading}>
                 {loading ? <CircularProgress size={24} color="primary" /> : "Create Person"}
               </Button>
             </DialogActions>

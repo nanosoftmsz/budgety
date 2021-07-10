@@ -66,7 +66,6 @@ export default function Login() {
           localStorage.setItem("userEmail", res.data.data.email);
           localStorage.setItem("userToken", res.data.data.token);
           history.push("/dashboard");
-          window.location.reload();
         })
         .catch((err) => {
           if (err.response.data.message) {
@@ -91,7 +90,6 @@ export default function Login() {
         localStorage.setItem("userEmail", res.data.data.email);
         localStorage.setItem("userToken", res.data.data.token);
         history.push("/dashboard");
-        window.location.reload();
       })
       .catch((err) => {
         if (err.response.data.message) {

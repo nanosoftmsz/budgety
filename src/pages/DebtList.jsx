@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, CssBaseline, Box, Typography } from "@material-ui/core";
-import { bearerToken } from "../utils/constant";
 import Notification from "../components/Common/Notification";
 import axios from "axios";
 
@@ -21,7 +20,11 @@ export default function DebtList() {
 
   useEffect(() => {
     axios
-      .get(`/dashboard/debt/${localStorage.getItem("userId")}`, bearerToken)
+      .get(`/dashboard/debt/${localStorage.getItem("userId")}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userToken"),
+        },
+      })
       .then((res) => {
         console.log(res);
         setData(res.data.data);
