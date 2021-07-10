@@ -22,7 +22,7 @@ import SingleCard from "../components/OwnedAndDebt/SingleCard";
 import Notification from "../components/Common/Notification";
 import EmptyState from "../components/Common/EmptyState";
 import { UserContext } from "../context/UserContext";
-import { bearerToken } from "../utils/constant";
+import { bearerToken, validatePhoneNumber } from "../utils/constant";
 import axios from "axios";
 import FuzzySearch from "fuzzy-search";
 import LoadingState from "../components/Common/LoadingState";
@@ -89,6 +89,8 @@ export default function OwnedAndDebt() {
 
   const createPerson = (e) => {
     e.preventDefault();
+    const valid_number = personInfo.phone_number.match(validatePhoneNumber);
+    if (!valid_number) return Notification("Warning", "Invalid phone number", "warning");
     setAddPersonModal(false);
     setLoading(true);
     axios
