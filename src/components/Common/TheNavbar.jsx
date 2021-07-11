@@ -47,7 +47,6 @@ export default function TheNavbar() {
     setUserInfo({ userToken: null });
     localStorage.clear();
     history.push("/");
-    // window.location.reload();
   };
 
   const list = () => (
@@ -87,7 +86,7 @@ export default function TheNavbar() {
       <AppBar position="static" color="transparent">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <Link to="/">Budgety</Link>
+            {localStorage.getItem("userId") ? <Link to="/dashboard">Budgety</Link> : <Link to="/">Budgety</Link>}
           </Typography>
 
           {/* SHOW ONLY ON MEDIUM AND SMALLER SIZED DEVICES */}
