@@ -1,4 +1,6 @@
-import { Switch, Route } from "react-router-dom";
+import { useContext } from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 import Login from "../pages/Login";
 import TheNavbar from "../components/Common/TheNavbar";
 import Register from "../pages/Register";
@@ -16,16 +18,19 @@ import OwnedList from "../pages/OwnedList";
 import DebtList from "../pages/DebtList";
 
 export default function MainApp() {
+  const { userInfo } = useContext(UserContext);
   return (
     <div>
       <TheNavbar />
       <Switch>
-        {localStorage.getItem("userToken") ? <Route exact path="/" component={Dashboard} /> : <Route exact path="/" component={Home} />}
-        {/* <Route exact path="/" component={Home} /> */}
+        {/* {localStorage.getItem("userToken") ? <Route exact path="/" component={Dashboard} /> : <Route exact path="/" component={Home} />} */}
+        {/* {userInfo.userToken ? <Route exact path="/" component={Dashboard} /> : <Route exact path="/" component={Home} />} */}
+        <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/forgot-password" component={ForgotPassword} />
         <Route exact path="/reset-password/:token" component={ResetPassword} />
+        {/* <ProtectedRoute exact path="/" render={() => <Redirect to="/dashboard" />} /> */}
         <ProtectedRoute exact path="/dashboard" component={Dashboard} />
         <ProtectedRoute exact path="/dashboard/owned-list" component={OwnedList} />
         <ProtectedRoute exact path="/dashboard/debt-list" component={DebtList} />

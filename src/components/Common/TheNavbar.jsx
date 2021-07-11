@@ -47,7 +47,7 @@ export default function TheNavbar() {
     setUserInfo({ userToken: null });
     localStorage.clear();
     history.push("/");
-    window.location.reload();
+    // window.location.reload();
   };
 
   const list = () => (
