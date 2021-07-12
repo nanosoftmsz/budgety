@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button, CssBaseline, TextField, Typography, Box, Container, Card, CardContent, Grid, CircularProgress } from "@material-ui/core";
+import { Button, CssBaseline, TextField, Typography, Box, Container, Card, CardContent, Grid, CircularProgress, FormControlLabel, Checkbox } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, useHistory } from "react-router-dom";
 import AutorenewRoundedIcon from "@material-ui/icons/AutorenewRounded";
@@ -7,6 +7,7 @@ import Copyright from "../components/Common/Copyright";
 import invalid from "../assets/img/invalid.svg";
 import Notification from "../components/Common/Notification";
 import { UserContext } from "../context/UserContext";
+import PasswordStrengthMeter from "../components/Common/PasswordStrengthMeter";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +44,7 @@ export default function ResetPassword() {
   const [resetPassword, setResetPassword] = useState({ password: "", confirm_password: "" });
   const [email, setEmail] = useState("");
   const [isVerified, setIsVerified] = useState(false);
+  const [showPasswordCheck, setShowPasswordCheck] = useState(false);
 
   // FUNCTIONS
   const handleChange = (e) => setResetPassword({ ...resetPassword, [e.target.name]: e.target.value });
@@ -120,6 +122,7 @@ export default function ResetPassword() {
                   label="Enter New Password"
                   name="password"
                   type="password"
+                  type={showPasswordCheck ? "text" : "password"}
                   autoFocus
                   value={resetPassword.password}
                   onChange={handleChange}
@@ -129,12 +132,21 @@ export default function ResetPassword() {
                   margin="normal"
                   required
                   fullWidth
+                  type={showPasswordCheck ? "text" : "password"}
                   label="Confirm New Password"
                   name="confirm_password"
                   type="password"
                   value={resetPassword.confirm_password}
                   onChange={handleChange}
                 />
+
+                {resetPassword.password && <PasswordStrengthMeter password={resetPassword.password} />}
+
+                <Grid container alignItems="center">
+                  <Grid item xs={12} sm={6}>
+                    <FormControlLabel control={<Checkbox value="remember" color="primary" onChange={(e) => setShowPasswordCheck(e.target.checked)} />} label="Show Password" />
+                  </Grid>
+                </Grid>
                 <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit} disabled={loading}>
                   {loading ? <CircularProgress size={24} color="primary" /> : "Reset Password"}
                 </Button>

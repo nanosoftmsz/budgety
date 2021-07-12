@@ -84,22 +84,10 @@ export default function ForgotPassword() {
               </Box>
 
               <Box display="flex" justifyContent="center">
-                <Typography variant="subtitle1">Enter your email address below and we'll send you password reset OTP.</Typography>
+                <Typography variant="subtitle1">Enter your email address below and we'll send you password reset OTP</Typography>
               </Box>
 
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                type="email"
-                autoFocus
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <TextField variant="outlined" margin="normal" required fullWidth label="Email Address" name="email" type="email" autoFocus value={email} onChange={(e) => setEmail(e.target.value)} />
               <Button type="submit" fullWidth variant="contained" disableElevation color="primary" className={classes.submit} disabled={loading}>
                 {loading ? <CircularProgress size={24} color="primary" /> : "Send Mail"}
               </Button>
