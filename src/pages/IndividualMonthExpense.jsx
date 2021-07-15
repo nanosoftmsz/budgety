@@ -19,13 +19,16 @@ import {
   DialogTitle,
   TextField,
   DialogActions,
+  IconButton,
 } from "@material-ui/core";
 import TabPanel from "../components/Common/TabPanel";
 import AttachMoneyRoundedIcon from "@material-ui/icons/AttachMoneyRounded";
 import PostAddRoundedIcon from "@material-ui/icons/PostAddRounded";
 import ExpenseHistoryTable from "../components/MonthlyExpense/ExpenseHistoryTable";
+import ArrowBackIosRoundedIcon from "@material-ui/icons/ArrowBackIosRounded";
 import AddMoneyHistoryTable from "../components/MonthlyExpense/AddMoneyHistoryTable";
 import Notification from "../components/Common/Notification";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -175,6 +178,11 @@ export default function IndividualMonthExpense() {
     <div>
       <Container component="main" maxWidth="lg" className={classes.root}>
         <CssBaseline />
+        <Link to="/monthly-expenditure">
+          <IconButton>
+            <ArrowBackIosRoundedIcon />
+          </IconButton>
+        </Link>
         <Box display="flex" justifyContent="center" mb={4}>
           <Typography variant="h4" color="primary" className={classes.month}>
             {data.name}
