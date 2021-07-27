@@ -1,6 +1,4 @@
-import { useContext } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
+import { Switch, Route } from "react-router-dom";
 import Login from "../pages/Login";
 import TheNavbar from "../components/Common/TheNavbar";
 import Register from "../pages/Register";
@@ -18,7 +16,6 @@ import OwnedList from "../pages/OwnedList";
 import DebtList from "../pages/DebtList";
 
 export default function MainApp() {
-  const { userInfo } = useContext(UserContext);
   return (
     <div>
       <TheNavbar />

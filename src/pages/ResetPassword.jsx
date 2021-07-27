@@ -121,7 +121,6 @@ export default function ResetPassword() {
                   fullWidth
                   label="Enter New Password"
                   name="password"
-                  type="password"
                   type={showPasswordCheck ? "text" : "password"}
                   autoFocus
                   value={resetPassword.password}
@@ -135,7 +134,6 @@ export default function ResetPassword() {
                   type={showPasswordCheck ? "text" : "password"}
                   label="Confirm New Password"
                   name="confirm_password"
-                  type="password"
                   value={resetPassword.confirm_password}
                   onChange={handleChange}
                 />
