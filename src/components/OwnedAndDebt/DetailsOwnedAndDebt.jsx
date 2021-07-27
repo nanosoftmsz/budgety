@@ -16,6 +16,7 @@ import {
   FormControlLabel,
   Card,
   CardContent,
+  IconButton,
   Radio,
 } from "@material-ui/core";
 import { useParams } from "react-router-dom";
@@ -24,6 +25,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Notification from "../../components/Common/Notification";
 import EmptyState from "../Common/EmptyState";
 import TransactionTable from "./TransactionTable";
+import ArrowBackIosRoundedIcon from "@material-ui/icons/ArrowBackIosRounded";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import axios from "axios";
 
@@ -116,6 +119,12 @@ export default function DetailsOwnedAndDebt() {
     <div>
       <Container component="main" maxWidth="lg" className={classes.root}>
         <CssBaseline />
+
+        <Link to="/owned-and-debt">
+          <IconButton>
+            <ArrowBackIosRoundedIcon />
+          </IconButton>
+        </Link>
 
         <Grid container direction="column" justify="center" alignItems="center">
           <Typography variant="body1">Transaction with</Typography>
