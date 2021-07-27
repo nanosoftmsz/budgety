@@ -30,7 +30,9 @@ export default function SingleCard({ info }) {
         <CardContent className={classes.card}>
           <Grid container alignItems="center" justify="center">
             <Grid item xs={12} sm={6} md={5}>
-              <Typography variant="subtitle1">{info.name}</Typography>
+              <Link to={`owned-and-debt/${info._id}`}>
+                <Typography variant="subtitle1">{info.name}</Typography>
+              </Link>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Typography variant="subtitle1">{info.phone}</Typography>
