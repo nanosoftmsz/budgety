@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Container,
   Grid,
@@ -14,18 +14,19 @@ import {
   DialogContentText,
   DialogActions,
   CircularProgress,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
-import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
-import SingleCard from "../components/OwnedAndDebt/SingleCard";
-import Notification from "../components/Common/Notification";
-import EmptyState from "../components/Common/EmptyState";
-import { UserContext } from "../context/UserContext";
-import { validatePhoneNumber } from "../utils/constant";
-import axios from "axios";
-import FuzzySearch from "fuzzy-search";
-import LoadingState from "../components/Common/LoadingState";
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
+import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
+import SingleCard from '../components/OwnedAndDebt/SingleCard';
+import Notification from '../components/Common/Notification';
+import EmptyState from '../components/Common/EmptyState';
+import { UserContext } from '../context/UserContext';
+import { validatePhoneNumber } from '../utils/constant';
+import axios from 'axios';
+import FuzzySearch from 'fuzzy-search';
+import LoadingState from '../components/Common/LoadingState';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,13 +39,13 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(6),
   },
   card: {
-    paddingBottom: "16px !important",
+    paddingBottom: '16px !important',
   },
   arrowUp: {
-    color: "#64dd17",
+    color: '#64dd17',
   },
   arrowDown: {
-    color: "#e53935",
+    color: '#e53935',
   },
 }));
 
@@ -54,8 +55,8 @@ export default function OwnedAndDebt() {
 
   // STATES
   const [addPersonModal, setAddPersonModal] = useState(false);
-  const [personInfo, setPersonInfo] = useState({ name: "", phone_number: "" });
-  const [searchInput, setSearchInput] = useState("");
+  const [personInfo, setPersonInfo] = useState({ name: '', phone_number: '' });
+  const [searchInput, setSearchInput] = useState('');
   const [personData, setPersonData] = useState([]);
   const [searchPerson, setSearchPerson] = useState([]);
 
@@ -65,9 +66,9 @@ export default function OwnedAndDebt() {
   const getAllPersonData = () => {
     setLoading(true);
     axios
-      .get(`persons/${localStorage.getItem("userId")}`, {
+      .get(`persons/${localStorage.getItem('userId')}`, {
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("userToken"),
+          Authorization: 'Bearer ' + localStorage.getItem('userToken'),
         },
       })
       .then((res) => {
@@ -77,9 +78,9 @@ export default function OwnedAndDebt() {
       })
       .catch((err) => {
         if (err.response.data.message) {
-          Notification("Error", `${err.response.data.message}`, "error");
+          Notification('Error', `${err.response.data.message}`, 'error');
         } else {
-          Notification("Error", "Something went wrong. Please check your internet connection", "error");
+          Notification('Error', 'Something went wrong. Please check your internet connection', 'error');
         }
       })
       .finally(() => {
@@ -94,43 +95,42 @@ export default function OwnedAndDebt() {
   const createPerson = (e) => {
     e.preventDefault();
     const valid_number = personInfo.phone_number.match(validatePhoneNumber);
-    if (!valid_number) return Notification("Warning", "Invalid phone number", "warning");
+    if (!valid_number) return Notification('Warning', 'Invalid phone number', 'warning');
 
     setLoading(true);
     axios
       .post(
-        "/persons",
-        { name: personInfo.name, phone: personInfo.phone_number, user: localStorage.getItem("userId") },
+        '/persons',
+        { name: personInfo.name, phone: personInfo.phone_number, user: localStorage.getItem('userId') },
         {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("userToken"),
+            Authorization: 'Bearer ' + localStorage.getItem('userToken'),
           },
         }
       )
       .then((res) => {
         console.log(res);
-        Notification("Success", "Person info created successfully", "success");
+        Notification('Success', 'Person info created successfully', 'success');
         getAllPersonData();
       })
       .catch((err) => {
         if (err.response.data.message) {
-          Notification("Error", `${err.response.data.message}`, "error");
+          Notification('Error', `${err.response.data.message}`, 'error');
         } else {
-          Notification("Error", "Something went wrong. Please check your internet connection", "error");
+          Notification('Error', 'Something went wrong. Please check your internet connection', 'error');
         }
       })
       .finally(() => {
-        setPersonInfo({ name: "", phone_number: "" });
+        setPersonInfo({ name: '', phone_number: '' });
         setLoading(false);
         setAddPersonModal(false);
       });
   };
 
   // SEARCH PERSON
-  const personSearcher = new FuzzySearch(searchPerson, ["name", "phone"], { sort: true });
+  const personSearcher = new FuzzySearch(searchPerson, ['name', 'phone'], { sort: true });
 
   const handleSearch = (e) => {
-    console.log(e.target.value);
     setSearchInput(e.target.value);
     if (e.target.value) {
       const result = personSearcher.search(e.target.value);
@@ -175,7 +175,17 @@ export default function OwnedAndDebt() {
         {/* IF LOADING THEN SHOW LOADING STATE. IF ARRAY RETURNS 0 THEN SHOW EMPTY STATE. IF ARRAY RETURNS ANY DATA THEN SHOW CARD */}
         <Grid container spacing={3} justify="center" className={classes.mt}>
           <Grid item xs={12}>
-            {loading ? <LoadingState /> : personData.length !== 0 ? personData.map((data) => <SingleCard key={data._id} info={data} />) : <EmptyState msg="Person not found. Please create one" />}
+            {loading ? (
+              <LoadingState />
+            ) : personData.length !== 0 ? (
+              personData.map((data) => (
+                <Link to={`/owned-and-debt/${data._id}`} key={data._id}>
+                  <SingleCard key={data._id} info={data} />
+                </Link>
+              ))
+            ) : (
+              <EmptyState msg="Person not found. Please create one" />
+            )}
           </Grid>
         </Grid>
 
@@ -194,7 +204,7 @@ export default function OwnedAndDebt() {
                 Cancel
               </Button>
               <Button type="submit" variant="contained" size="small" disableElevation color="primary" disabled={loading}>
-                {loading ? <CircularProgress size={24} color="primary" /> : "Create Person"}
+                {loading ? <CircularProgress size={24} color="primary" /> : 'Create Person'}
               </Button>
             </DialogActions>
           </form>

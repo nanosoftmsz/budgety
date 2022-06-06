@@ -1,23 +1,23 @@
-import React from "react";
-import { Card, CardContent, Button, IconButton, Typography, Box, Grid, Tooltip } from "@material-ui/core";
-import ArrowDropDownRoundedIcon from "@material-ui/icons/ArrowDropDownRounded";
-import ArrowDropUpRoundedIcon from "@material-ui/icons/ArrowDropUpRounded";
-import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
-import KeyboardArrowRightRoundedIcon from "@material-ui/icons/KeyboardArrowRightRounded";
+import React from 'react';
+import { Card, CardContent, Button, IconButton, Typography, Box, Grid, Tooltip } from '@material-ui/core';
+import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded';
+import ArrowDropUpRoundedIcon from '@material-ui/icons/ArrowDropUpRounded';
+import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
+import KeyboardArrowRightRoundedIcon from '@material-ui/icons/KeyboardArrowRightRounded';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginBottom: theme.spacing(2),
   },
   card: {
-    paddingBottom: "16px !important",
+    paddingBottom: '16px !important',
   },
   arrowUp: {
-    color: "#64dd17",
+    color: '#64dd17',
   },
   arrowDown: {
-    color: "#e53935",
+    color: '#e53935',
   },
 }));
 
@@ -30,9 +30,7 @@ export default function SingleCard({ info }) {
         <CardContent className={classes.card}>
           <Grid container alignItems="center" justify="center">
             <Grid item xs={12} sm={6} md={5}>
-              <Link to={`owned-and-debt/${info._id}`}>
-                <Typography variant="subtitle1">{info.name}</Typography>
-              </Link>
+              <Typography variant="subtitle1">{info.name}</Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Typography variant="subtitle1">{info.phone}</Typography>
@@ -52,15 +50,13 @@ export default function SingleCard({ info }) {
               </Box>
             </Grid>
             <Grid item xs={12} sm={12} md={1}>
-              <Link to={`owned-and-debt/${info._id}`}>
-                <Tooltip title="View details">
-                  <Box display="flex" justifyContent="flex-end" alignItems="center">
-                    <IconButton aria-label="right">
-                      <KeyboardArrowRightRoundedIcon />
-                    </IconButton>
-                  </Box>
-                </Tooltip>
-              </Link>
+              <Tooltip title="View details">
+                <Box display="flex" justifyContent="flex-end" alignItems="center">
+                  <IconButton aria-label="right">
+                    <KeyboardArrowRightRoundedIcon />
+                  </IconButton>
+                </Box>
+              </Tooltip>
             </Grid>
           </Grid>
         </CardContent>
